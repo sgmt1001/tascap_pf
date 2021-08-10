@@ -18,7 +18,7 @@
           <tr>
             <td><%= @organization.name %></td>
             <td><%= @organization.introduction %></td>
-            <td><%= @organization.user_id %></td>
+            <td><%= User.find(@organization.user_id).name %></td>
             <td>メンバーカウント</td>
             <% if @organization.user_id == current_user.id %>
               <td>
@@ -29,6 +29,10 @@
           </tr>
         </tbody>
       </table>
+
+      <div>belonging user</div>
+
+      <P>ユーザの名前と画像一覧を表示</P>
 
     </div>
   </div>

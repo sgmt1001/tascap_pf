@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root to:'homes#top'
   get '/about' => 'homes#about'
   resources :organizations do
-      resources :project
-      resources :belonging
+      resources :projects
+      resources :belongings
     end
 end

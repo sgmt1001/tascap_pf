@@ -15,7 +15,6 @@ class OrganizationsController < ApplicationController
   end
 
   def create
-    # binding.pry
     @organization = Organization.new(organization_params)
     @organization.user_id = current_user.id
     if @organization.save
