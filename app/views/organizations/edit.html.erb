@@ -4,7 +4,7 @@
 
       <h1>organization edit</h1>
 
-       <%= form_with model:@organization,url:organization_path(@organization.id),local:true do |f| %>
+      <%= form_with model:@organization,url:organization_path(@organization.id),local:true do |f| %>
         <div>
           <%= f.label :name %><br>
           <%= f.text_field :name %>

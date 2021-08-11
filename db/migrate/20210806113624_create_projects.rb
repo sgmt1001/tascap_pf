@@ -4,8 +4,9 @@ class CreateProjects < ActiveRecord::Migration[5.2]
 
     t.string :name, null: false
     t.text :overview, null: false
+    t.integer :organization_id, null: false
     t.integer :user_id, null: false
-        #組織の作成者が編集、更新、削除等を行えるようにするためのカラム
+        #プロジェクトの作成者が編集、更新、削除等を行えるようにするためのカラム
 
       t.timestamps
     end

@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_114305) do
   create_table "projects", force: :cascade do |t|
     t.string "name", null: false
     t.text "overview", null: false
+    t.integer "organization_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

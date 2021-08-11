@@ -1,18 +1,27 @@
 class ProjectsController < ApplicationController
 
   def new
+    @project = Project.new
   end
 
   def index
-    @organization = Organization.find(params[:organization_id])
-    @organization = current_user.organization.id
+    @project = Project.all
   end
 
   def show
+    @project = Project.find(params[:id])
   end
 
   def create
-    @organization = Organization.find(params[:organization_id])
+    @project = Project.new(project_params)
+    @project.user_id = current_user.id
+    @project.organization_id = params[:organization_id]
+    if @project.save
+      redirect_to organizations_path
+    else
+      #@project = Project.all
+      render 'index'
+    end
   end
 
   def edit
@@ -24,7 +33,7 @@ class ProjectsController < ApplicationController
   def destroy
   end
 
-  def organization_params
+  def project_params
     params.require(:project).permit(:name, :overview)
   end
 

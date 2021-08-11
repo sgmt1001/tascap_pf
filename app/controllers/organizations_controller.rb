@@ -7,7 +7,6 @@ class OrganizationsController < ApplicationController
 
   def index
     @organization = Organization.all
-    
   end
 
   def show

@@ -19,7 +19,7 @@
             <td><%= @organization.name %></td>
             <td><%= @organization.introduction %></td>
             <td><%= User.find(@organization.user_id).name %></td>
-            <td>メンバーカウント</td>
+            <td>メンバーカウント(link)</td>
             <% if @organization.user_id == current_user.id %>
               <td>
                 <%= link_to 'edit',edit_organization_path(@organization.id) %>
@@ -30,9 +30,11 @@
         </tbody>
       </table>
 
-      <div>belonging user</div>
+      <div>projects</div>
+      <P><%= link_to 'new project',new_organization_project_path(@organization.id) %></P>
 
-      <P>ユーザの名前と画像一覧を表示</P>
+      <p>
+      </p>
 
     </div>
   </div>
