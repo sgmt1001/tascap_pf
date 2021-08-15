@@ -4,14 +4,13 @@ Rails.application.routes.draw do
   root to:'homes#top'
   get '/about' => 'homes#about'
   resources :organizations do
-    resources :projects, except: [:index]#create時に組織のidを渡すためにネスト#[:index,:create]
-    #resources :belongings
+    resources :projects do#create時に組織のidを渡すためにネスト
+      resources :tasks
+    end
   end
-  resource :user, only: [:show,:edit,:update] do
-    resources :projects,only: [:index,:create]
+  resources :users, only: [:show,:edit,:update] do
+    resources :projects#projectのindexはuser/projects
   end
-  #projectのindexはuser/projects
-  resources :tasks, except: [:index]
+  #resources :tasks, except: [:index]
 
-      #resources :belongings
 end

@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row my-3">
-    <div class="col-lg-3">
+    <div class="col-lg-12">
 
       <h1>organization detail</h1>
 
@@ -30,11 +30,31 @@
         </tbody>
       </table>
 
-      <div>projects</div>
+      <h2>projects</h2>
       <P><%= link_to 'new project',new_organization_project_path(@organization.id) %></P>
 
-      <p>
-      </p>
+      <table class='table'>
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>overview</th>
+              <th>man hour</th><%# taskのman_hourの合計 %>
+              <th>owner</th>
+              <th>member</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @organization.projects.each do |project| %>
+            <tr>
+              <td><%= link_to project.name, organization_project_path(project.id) %></td><%# 遷移先が意図通りに動かない %>
+              <td><%= project.overview %></td>
+              <td>タスクの合計時間</td>
+              <td><%= User.find(project.user_id).name %></td>
+              <td>メンバーカウント(link)</td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
 
     </div>
   </div>

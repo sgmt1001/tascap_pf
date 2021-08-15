@@ -7,4 +7,9 @@ class User < ApplicationRecord
   has_many :belongings
   has_many :organizations, through: :belongings
 
+  has_many :members
+  has_many :projects, through: :members
+
+  attachment :profile_image
+
 end

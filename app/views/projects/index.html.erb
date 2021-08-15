@@ -1,39 +1,36 @@
 <div class="container">
   <div class="row my-3">
-    <div class="col-lg-3">
+    <div class="col-lg-12">
 
       <h1>project index</h1>
       <span>organization</span>
       <span>（プルダウン）</span>
       <table class='table'>
-          <thead>
-            <tr>
-              <th>name</th>
-              <th>overview</th>
-              <th>man hour</th><%# taskのman_hourの合計 %>
-              <th>owner</th>
-              <th>member</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @project.each do |project| %>
-            <tr>
-              <td><%= project.name %></td>
-              <td><%= project.overview %></td>
-              <td>タスクの合計時間</td>
-              <td><%= User.find(project.user_id).name %></td>
-              <td>メンバーカウント(link)</td>
-              <%# if project.user_id == current_user.id %>
-                <td>
-                  <%#= link_to 'edit',dit_organization_project_path(project.id) %>
-                  <%#= link_to 'delete',organization_project_path(project.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
-                </td>
-              <%# end %>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <thead>
+          <tr>
+            <th>name</th>
+            <th>overview</th>
+            <th>man hour</th><%# taskのman_hourの合計 %>
+            <th>spendable hour</th>
+            <th>capacity</th>
+            <th>owner</th>
+            <th>member</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @project.each do |project| %><%# ログインユーザの情報だけ取得したい %>
+          <tr>
+            <td><%= link_to project.name, root_path %></td><%# 遷移先をorganization_project_pathにしたいがorganization_idを取得できない %>
+            <td><%= project.overview %></td>
+            <td>タスクの合計時間</td>
+            <td></td>
+            <td></td>
+            <td><%= User.find(project.user_id).name %></td>
+            <td>メンバーカウント(link)</td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
 
     </div>
   </div>
