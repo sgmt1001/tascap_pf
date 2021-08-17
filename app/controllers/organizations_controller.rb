@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  
+
 
   def new
     @organization = Organization.new
@@ -17,7 +17,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new(organization_params)
     @organization.user_id = current_user.id
     if @organization.save
-      redirect_to organizations_path
+      redirect_to organization_path(@organization)
     else
       render 'index'
     end
@@ -28,10 +28,10 @@ class OrganizationsController < ApplicationController
     if current_user.id == @organization.user_id
       render :edit
     else
-      redirect_to organizations_path
+      redirect_to organization_path(@organization)
     end
   end
-  
+
   def update
     @organization = Organization.find(params[:id])
     if @organization.update(organization_params)
@@ -46,7 +46,7 @@ class OrganizationsController < ApplicationController
     @organization.destroy
     redirect_to organizations_path
   end
-  
+
   def invite
   #belongにcheckカラムをつくる true , false, から=見てない
   #emailからUserを探す

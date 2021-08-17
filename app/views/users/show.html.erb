@@ -1,7 +1,43 @@
 <div class="container">
   <div class="row my-3">
-    <div class="col-lg-3">
+    <div class="col-lg-4">
       <h1>my page</h1>
+      <div>
+        <%= attachment_image_tag(@user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '100x100') %>
+      </div>
+      <p class="font-weight-bold border-bottom">name</p>
+      <p><%= @user.name %></p>
+      <p class="font-weight-bold border-bottom">organization</p>
+      <%# @user.organziations.each do |organization| %>
+        <p>所属組織の一覧を出したいができない（レコードにデータが保存されていない？）<%#= organziation.name %></p>
+      <%# end %>
+      <p class="font-weight-bold border-bottom">introduction</p>
+      <p><%= @user.introduction %></p>
+      <p><%= link_to 'edit profile',edit_user_path(@user) %></p>
     </div>
+
+    <div class="col-lg-8" style="height: 100%">
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>task</th>
+            <th>man hour</th>
+            <th>deadline</th>
+            <th>status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%# @organization.each do |organization| %>
+          <tr>
+            <td>タスクの名前</td>
+            <td>工数</td>
+            <td>期限</td>
+            <td>ステータス</td>
+          </tr>
+          <%# end %>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </div>

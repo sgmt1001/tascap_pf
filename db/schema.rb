@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_114305) do
   end
 
   create_table "members", force: :cascade do |t|
+    t.integer "project_id", null: false
     t.integer "user_id", null: false
     t.integer "spendable_hour", null: false
     t.datetime "created_at", null: false
@@ -71,9 +72,8 @@ ActiveRecord::Schema.define(version: 2021_08_06_114305) do
     t.string "name", null: false
     t.text "detail"
     t.integer "man_hour", null: false
-    t.datetime "deadline"
+    t.time "deadline"
     t.integer "status", default: 0, null: false
-    t.boolean "is_deleted", default: false, null: false
     t.integer "project_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false

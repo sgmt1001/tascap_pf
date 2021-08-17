@@ -1,13 +1,12 @@
 class CreateTasks < ActiveRecord::Migration[5.2]
   def change
     create_table :tasks do |t|
-      
+
       t.string :name, null: false
       t.text :detail
       t.integer :man_hour, null: false
-      t.datetime :deadline
+      t.time :deadline
       t.integer :status, null: false, default: 0
-      t.boolean :is_deleted, null: false, default: false
       t.integer :project_id, null: false
        #紐づくプロジェクトのID
       t.integer :user_id, null: false
