@@ -15,14 +15,14 @@
       <br>
       <span class="font-weight-bold">overview</span>
       <p><%= @project.overview %></p>
-      <P>
+      <p>
         <% if @project.user_id == current_user.id %>
           <p>
             <%= link_to 'edit',edit_organization_project_path(@project.id) %>
             <%= link_to 'delete',organization_project_path(@project.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
           </p>
         <% end %>
-      </P>
+      </p>
       <table style="width :100%">
         <thead>
           <tr>
@@ -33,6 +33,7 @@
         </thead>
         <tbody>
           <% @projects.each do |project| %>
+          <%# memberからひろってくる %>
           <tr>
             <td>
               <span>(画像)</span>
@@ -49,7 +50,8 @@
     <div class="col-lg-8">
       <table class='table'>
         <p>
-          <%= link_to 'new taskに遷移したいができない',root_path %>
+          <%= link_to 'new taskに遷移したいができない',new_organization_project_task_path(@project.organization_id,@project.id) %>
+          <%# new_organization_project_task_path(@project) %>
         </p>
         <thead>
           <tr>

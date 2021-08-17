@@ -3,7 +3,7 @@
     <div class="col-lg-3">
       <h1>new task</h1>
 
-        <%= form_with model:@task,url:organization_projects_path,local:true do |f| %>
+        <%= form_with model:@task,url: organization_project_tasks_path(@task.project.organization_id,@task.project_id),local:true do |f| %>
           <div>
             <%= f.label :name %><br>
             <%= f.text_field :name %>

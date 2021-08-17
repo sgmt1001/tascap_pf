@@ -1,9 +1,9 @@
 class TasksController < ApplicationController
 
   def new
-    @task = Task.new
+    @task = Task.new(project_id:params[:project_id])
   end
-  
+
   def index
     @task = Task.all
   end
@@ -17,7 +17,7 @@ class TasksController < ApplicationController
    @task.user_id = current_user.id
    @task.project_id = params[:organization_id]
     if @task.save
-      redirect_to task_path(@task)
+      redirect_to organization_project_task_path(@task.project.organization_id,@task.project_id,@task.id)
     else
       render 'new'
     end

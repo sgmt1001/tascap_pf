@@ -45,7 +45,7 @@ class ProjectsController < ApplicationController
   def destroy
     @project = Project.find(params[:id])
     @project.destroy
-    redirect_to organizations_parh
+    redirect_to organization_project_path(@project)
   end
 
   def project_params

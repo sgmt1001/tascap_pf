@@ -46,7 +46,7 @@
           <tbody>
             <% @organization.projects.each do |project| %>
             <tr>
-              <td><%= link_to project.name, organization_project_path(project.id) %></td><%# 遷移先が意図通りに動かない %>
+              <td><%= link_to project.name, organization_project_path(@organization.id,project.id) %></td><%# 遷移先が意図通りに動かない　%>
               <td><%= project.overview %></td>
               <td>タスクの合計時間</td>
               <td><%= User.find(project.user_id).name %></td>
