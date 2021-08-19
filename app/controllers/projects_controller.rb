@@ -45,7 +45,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @organization = @project.organization_id
     @project.destroy
-    redirect_to organization_projects_path(@organization)
+    redirect_to organization_path(@organization)
   end
 
   def member

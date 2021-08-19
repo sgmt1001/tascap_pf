@@ -52,8 +52,10 @@ class OrganizationsController < ApplicationController
   end
 
   def invite
-    @invite = Belonging.create(organization_id:param[:organization_id],user_id:params[:user_id])
+
+    @invite = Belonging.create(organization_id:params[:id],user_id:params[:user_id])
     @invite.save
+    redirect_to organizations_path
   #belongにcheckカラムをつくる true , false, から=見てない
   #emailからUserを探す
   #organizationのidもひつよう

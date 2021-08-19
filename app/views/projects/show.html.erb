@@ -34,13 +34,13 @@
           </tr>
         </thead>
         <tbody>
-          <% @project.users.each do |user| %>
+          <% @project.members.each do |member| %>
           <tr>
             <td>
-              <span><%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
-              <span><%= user.name %></span>
+              <span><%= attachment_image_tag(member.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+              <span><%= member.user.name %></span>
             </td>
-            <td><%= user.spendable_hour %></td>
+            <td><%= member.spendable_hour %></td>
             <td>(計算式)</td>
           </tr>
           <% end %>
