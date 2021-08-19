@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row my-3">
+    <div class="col-lg-12">
+      <h1>search user</h1>
+      <%= form_with url: organization_belonging_search_path, method: :get, local: true do |f| %>
+      <%= f.text_field :name %>
+      <%= f.submit :search %>
+      <% end %>
+      <br>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th style="width :30%">user</th>
+            <th style="width :60%">introduction</th>
+            <th style="width :10%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td>
+                <span><%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+                <span><%= user.name %></span>
+              </td>
+              <td><%= user.introduction %></td>
+              <td>invitate</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

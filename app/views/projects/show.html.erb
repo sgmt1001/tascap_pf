@@ -8,9 +8,11 @@
 
       <p class="font-weight-bold border-bottom">project</p>
       <span class="font-weight-bold">name</span>
+      <br>
       <span><%= @project.name %></span>
       <br>
       <span class="font-weight-bold">owner</span>
+      <br>
       <span><%= User.find(@project.user_id).name %></span>
       <br>
       <span class="font-weight-bold">overview</span>
@@ -32,17 +34,17 @@
           </tr>
         </thead>
         <tbody>
-          <% @projects.each do |project| %>
+          <%# @projects.each do |project| %>
           <%# memberからひろってくる %>
           <tr>
             <td>
-              <span>(画像)</span>
-              <%= User.find(project.user_id).name %></td>
+              <span>(画像)menber名</span>
+              </td>
             </td>
             <td>(時間)
             <td>(計算式)</td>
           </tr>
-          <% end %>
+          <%# end %>
         </tbody>
       </table>
     </div>
@@ -50,8 +52,7 @@
     <div class="col-lg-8">
       <table class='table'>
         <p>
-          <%= link_to 'new taskに遷移したいができない',new_organization_project_task_path(@project.organization_id,@project.id) %>
-          <%# new_organization_project_task_path(@project) %>
+          <%= link_to 'new task',new_organization_project_task_path(@project.organization_id,@project.id) %>
         </p>
         <thead>
           <tr>
@@ -65,11 +66,11 @@
         <tbody>
           <% @project.tasks.each do |task| %>
           <tr>
-            <td><%= task.name %></td>
+            <td><%= link_to task.name,organization_project_task_path(@project.organization.id,@project.id,task.id) %></td>
             <td><%= task.man_hour %></td>
             <td><%= task.deadline %></td>
             <td><%= task.status %></td>
-            <td>aaa</td>
+            <td><%= task.user.name %></td>
           </tr>
           <% end %>
         </tbody>
