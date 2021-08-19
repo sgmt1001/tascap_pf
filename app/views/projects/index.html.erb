@@ -20,7 +20,7 @@
         <tbody>
           <% @project.each do |project| %><%# ログインユーザの情報だけ取得したい %>
           <tr>
-            <td><%= link_to project.name, organization_project_path(project.id) %></td><%# 遷移先をorganization_project_pathにしたいがorganization_idを取得できない %>
+            <td><%= link_to project.name, organization_project_path(project.id) %></td><%# deleteした時にindexに遷移できない %>
             <td><%= project.overview %></td>
             <td>タスクの合計時間</td>
             <td></td>

@@ -47,6 +47,10 @@ class OrganizationsController < ApplicationController
     redirect_to organizations_path
   end
 
+  def belonging
+    @organization = Organization.find(params[:id])
+  end
+
   def invite
   #belongにcheckカラムをつくる true , false, から=見てない
   #emailからUserを探す
