@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   root to:'homes#top'
   get '/about' => 'homes#about'
   get 'organizations/:id/belonging' => 'organizations#belonging',as:'organization_belonging'
+  post 'organizations/:id/belonging' => 'organizations#invite',as:'organization_belonging_invite'
   get 'organizations/:id/belonging/search' => 'searchs#search_belonging',as:'organization_belonging_search'
+  get 'organizations/:id/projects/:id/member' => 'projects#member',as:'project_member'
+  post 'organizations/:id/projects/:id/member' => 'projects#invite',as:'project_member_invite'
+  get 'organizations/:id/projects/:id/member/search' => 'searchs#search_member',as:'project_member_search'
   resources :organizations do
     resources :projects do
       resources :tasks

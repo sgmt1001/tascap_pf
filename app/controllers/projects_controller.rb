@@ -10,7 +10,6 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
-    @projects = Project.all
   end
 
   def create
@@ -44,10 +43,16 @@ class ProjectsController < ApplicationController
 
   def destroy
     @project = Project.find(params[:id])
+    @organization = @project.organization_id
     @project.destroy
-    redirect_to organization_projects_path(@project.organization_id)
+    redirect_to organization_projects_path(@organization)
   end
 
+  def member
+    @project = Project.find(params[:id])
+  end
+
+  private
   def project_params
     params.require(:project).permit(:name, :overview)
   end

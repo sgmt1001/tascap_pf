@@ -52,6 +52,8 @@ class OrganizationsController < ApplicationController
   end
 
   def invite
+    @invite = Belonging.create(organization_id:param[:organization_id],user_id:params[:user_id])
+    @invite.save
   #belongにcheckカラムをつくる true , false, から=見てない
   #emailからUserを探す
   #organizationのidもひつよう
@@ -60,6 +62,7 @@ class OrganizationsController < ApplicationController
   #checkでorganizationの閲覧許可判定
   end
 
+  private
   def organization_params
     params.require(:organization).permit(:name, :introduction)
   end

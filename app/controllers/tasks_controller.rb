@@ -46,7 +46,8 @@ class TasksController < ApplicationController
     @task.destroy
     redirect_to organization_project_path
   end
-
+  
+  private
   def task_params
     params.require(:task).permit(:name, :detail, :man_hour, :deadline, :status)
   end
