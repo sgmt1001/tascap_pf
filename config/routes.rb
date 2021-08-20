@@ -7,8 +7,10 @@ Rails.application.routes.draw do
   get 'organizations/:id/invite' => 'organizations#invite',as:'organization_belonging_invite'
   get 'organizations/:id/belonging/search' => 'searchs#search_belonging',as:'organization_belonging_search'
   get 'organizations/:id/projects/:id/member' => 'projects#member',as:'project_member'
-  post 'organizations/:id/projects/:id/member' => 'projects#invite',as:'project_member_invite'
+  get 'organizations/:id/projects/:id/invite' => 'projects#invite',as:'project_member_invite'
   get 'organizations/:id/projects/:id/member/search' => 'searchs#search_member',as:'project_member_search'
+  get 'organizations/:id/projects/:id/member/:id' => 'projects#set_spendable',as:'project_member_spendable'
+  patch 'organizations/:id/projects/:id/member/:id' => 'projects#set_spendable_update',as:'project_member_spendable_update'
   resources :organizations do
     resources :projects do
       resources :tasks

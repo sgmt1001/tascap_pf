@@ -40,14 +40,14 @@
               <span><%= attachment_image_tag(member.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
               <span><%= member.user.name %></span>
             </td>
-            <td><%= member.spendable_hour %></td>
+            <td><%= link_to member.spendable_hour, project_member_spendable_path(member.id) %></td>
             <td>(計算式)</td>
           </tr>
           <% end %>
         </tbody>
       </table>
       <p>
-        <%= link_to 'add member',project_member_search_path %>
+        <%= link_to 'add member', project_member_search_path %>
       </p>
     </div>
 

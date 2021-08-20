@@ -4,7 +4,7 @@ class CreateMembers < ActiveRecord::Migration[5.2]
 
     t.integer :project_id, null: false
     t.integer :user_id, null: false
-    t.integer :spendable_hour, null: false
+    t.integer :spendable_hour, default: 0
       #ユーザがプロジェクトに使える時間、キャパシティの計算に使用
       #man_hourの合計/spendable_hour=capacity(%)
 

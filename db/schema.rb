@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_114305) do
   create_table "members", force: :cascade do |t|
     t.integer "project_id", null: false
     t.integer "user_id", null: false
-    t.integer "spendable_hour", null: false
+    t.integer "spendable_hour", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
