@@ -22,7 +22,11 @@
           </div>
           <div>
             <%= f.label :status %><br>
-            <%= f.select :status, Task.statuses.keys.to_a, {} %>
+            <%= f.select :status, Task.statuses.keys.to_a %>
+          </div>
+          <div>
+            <%= f.label :person %><br>
+            <%= f.select :name, Member.all,include_blank: true %>
           </div>
           <br>
           <div>
