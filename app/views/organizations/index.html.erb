@@ -10,7 +10,7 @@
             <th>name</th>
             <th>introduction</th>
             <th>owner</th>
-            <th>member</th>
+            <th>belonging</th>
           </tr>
         </thead>
         <tbody>
@@ -19,7 +19,7 @@
             <td><%= link_to organization.name, organization_path(organization.id) %></td>
             <td><%= organization.introduction %></td>
             <td><%= User.find(organization.user_id).name %></td>
-            <td>メンバーカウント(link)</td>
+            <td><%= Belonging.where(organization_id: organization.id).count %></td>
           </tr>
           <% end %>
         </tbody>

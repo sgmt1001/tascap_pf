@@ -26,7 +26,7 @@
           </div>
           <div>
             <%= f.label :person %><br>
-            <%= f.select :name, Member.all,include_blank: true %>
+            <%= f.select :pserson, Member.where(project_id: params[:project_id]), include_blank: true %>
           </div>
           <br>
           <div>

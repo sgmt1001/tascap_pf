@@ -3,7 +3,6 @@
     <div class="col-lg-3">
       <h1>task edit</h1>
 
-      <h1>task edit</h1>
         <%= form_with model:@task,url:organization_project_task_path(@task.id),local:true do |f| %>
           <div>
             <%= f.label :name %><br>
@@ -27,7 +26,7 @@
           </div>
           <div>
             <%= f.label :person %><br>
-            <%= f.select :name, Member.all,include_blank: true %>
+            <%= f.select :pserson, Member.where(project_id: params[:project_id]), include_blank: true %>
           </div>
           <br>
           <div>

@@ -30,6 +30,7 @@
           <tr>
             <th class="font-weight-bold border-bottom">member</th>
             <th class="font-weight-bold border-bottom">spendable</th>
+            <th class="font-weight-bold border-bottom">man hour </th>
             <th class="font-weight-bold border-bottom">capacity</th>
           </tr>
         </thead>
@@ -40,8 +41,15 @@
               <span><%= attachment_image_tag(member.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
               <span><%= member.user.name %></span>
             </td>
-            <td><%= link_to member.spendable_hour, project_member_spendable_path(@project.organization_id,@project.id,member_id = member.user_id) %></td>
-            <td></td>
+            <td><%= link_to member.spendable_hour, project_member_spendable_path(@project.organization.id, @project.id, member.id) %>h</td>
+            <td><%= Task.where(project_id: @project.id, user_id: member.user_id).sum(:man_hour) %>h</td>
+            <td>
+              <% if member.spendable_hour != 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述%>
+                <%= Task.where(project_id: @project.id, user_id: member.user_id).sum(:man_hour).to_f/member.spendable_hour.to_f*100.round %>%
+                <% else %>
+                <%= '-' %>
+              <% end %>
+            </td>
           </tr>
           <% end %>
         </tbody>

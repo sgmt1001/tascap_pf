@@ -26,6 +26,7 @@
               <td><%= user.introduction %></td>
               <% if user != current_user %>
               <td><%= link_to 'invite',organization_belonging_invite_path(@organization, user_id: user.id), data: { confirm: 'このユーザーを招待しますか？' }  %></td>
+
               <% end %>
             </tr>
           <% end %>

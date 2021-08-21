@@ -29,7 +29,7 @@ class ProjectsController < ApplicationController
     if current_user.id == @project.user_id
       render :edit
     else
-      redirect_to organization_project_path(@project.organization_id,@project.id)
+      redirect_to organization_project_path(@project.organization_id,@project.id,member.id)#遷移先要確認
     end
   end
 
