@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/about' => 'homes#about'
   get 'organizations/:id/belonging' => 'organizations#belonging',as:'organization_belonging'
   get 'organizations/:id/invite' => 'organizations#invite',as:'organization_belonging_invite'
+  delete 'organizations/:id/invite' => 'organizations#invite_destroy',as:'organization_belonging_invite_destroy'
   get 'organizations/:id/belonging/search' => 'searchs#search_belonging',as:'organization_belonging_search'
   get 'organizations/:id/projects/:id/member' => 'projects#member',as:'project_member'
   get 'organizations/:id/projects/:id/invite' => 'projects#invite',as:'project_member_invite'

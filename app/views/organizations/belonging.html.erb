@@ -19,7 +19,9 @@
                 <span><%= user.name %></span>
               </td>
               <td><%= user.introduction %></td>
-              <td></td>
+              <% if user.id != @organization.user_id %>
+              <td><%= link_to 'delete',organization_belonging_invite_destroy_path(@organization.id,user_id: user.id),method: :delete, data: { confirm: '本当に消しますか？' } %></td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>

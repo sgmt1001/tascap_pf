@@ -54,14 +54,16 @@ class OrganizationsController < ApplicationController
 
   def invite
     @invite = Belonging.create(organization_id:params[:id],user_id:params[:user_id])
+    @organization = Organization.find(params[:id])
     @invite.save
-    redirect_to organizations_path
-  #belongにcheckカラムをつくる true , false, から=見てない
-  #emailからUserを探す
-  #organizationのidもひつよう
-  #Belongingに登録,checkをから
-  #userが承認したらcheckをtrue
-  #checkでorganizationの閲覧許可判定
+    redirect_to = organization_path(@organization)
+  end
+
+  def invite_destroy
+    @invite = Belonging.find_by(organization_id:params[:id],user_id:params[:user_id])
+    @invite.destroy
+    @organization = Organization.find(params[:id])
+    redirect_to = organization_path(@organization)
   end
 
   private
