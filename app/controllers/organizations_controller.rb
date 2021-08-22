@@ -1,12 +1,12 @@
 class OrganizationsController < ApplicationController
-
+  before_action :belonging_user, only: [:show, :edit, :belonging,]
 
   def new
     @organization = Organization.new
   end
 
   def index
-    @organization = Organization.all
+    @user = current_user
   end
 
   def show
@@ -56,14 +56,22 @@ class OrganizationsController < ApplicationController
     @invite = Belonging.create(organization_id:params[:id],user_id:params[:user_id])
     @organization = Organization.find(params[:id])
     @invite.save
-    redirect_to = organization_path(@organization)
+    redirect_to organization_path(@organization)
   end
 
   def invite_destroy
     @invite = Belonging.find_by(organization_id:params[:id],user_id:params[:user_id])
     @invite.destroy
     @organization = Organization.find(params[:id])
-    redirect_to = organization_path(@organization)
+    redirect_to organization_path(@organization)
+  end
+
+  def belonging_user#組織に参加しているユーザだけがアクセスできるようにするための
+    @organization = Organization.find(params[:id])
+    @user = current_user
+    unless Belonging.find_by(organization_id: @organization.id,user_id: @user.id)
+      redirect_to root_path
+    end
   end
 
   private

@@ -1,11 +1,12 @@
 class TasksController < ApplicationController
+  before_action :task_user, only: [:show, :edit]
 
   def new
     @task = Task.new(project_id:params[:project_id])
   end
 
   def index
-    @task = Task.all
+    @user = current_user
   end
 
   def show
@@ -45,6 +46,14 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     @task.destroy
     redirect_to organization_project_path(@task.project.organization_id,@task.project_id)
+  end
+
+  def task_user#プロジェクトに参加しているユーザだけがアクセスできるようにするための記述
+    @task = Task.find(params[:id])
+    @user = current_user
+    unless Belonging.find_by(organization_id: @task.project.organization_id, user_id: @user.id) && Member.find_by(project_id: @task.project_id , user_id: @user.id)
+      redirect_to root_path
+    end
   end
 
   private

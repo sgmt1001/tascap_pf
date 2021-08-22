@@ -1,11 +1,12 @@
 class ProjectsController < ApplicationController
+  before_action :member_user, only: [:show, :edit, :member]
 
   def new
     @project = Project.new
   end
 
   def index
-    @project = Project.all
+    @user = current_user
   end
 
   def show
@@ -49,12 +50,23 @@ class ProjectsController < ApplicationController
     redirect_to organization_path(@organization)
   end
 
+  def member
+    @project = Project.find(params[:id])
+  end
+
   def invite
     @invite = Member.create(project_id:params[:id],user_id:params[:user_id])
     @invite.save
     @project = Project.find(params[:id])
     @organization = @project.organization_id
-    redirect_to organization_project_path(@organization,@project.id)
+    redirect_to organization_project_path(@project.organization_id,@project.id)
+  end
+
+  def invite_destroy
+    @invite = Member.find_by(project_id:params[:id],user_id:params[:user_id])
+    @invite.destroy
+    @project = Project.find(params[:id])
+    redirect_to organization_project_path(@project.organization_id,@project.id)
   end
 
   def set_spendable
@@ -67,6 +79,14 @@ class ProjectsController < ApplicationController
       redirect_to organization_project_path(@member.project.organization.id,@member.project.id)
     else
       render "set_spendable"
+    end
+  end
+
+  def member_user#プロジェクトに参加しているユーザだけがアクセスできるようにするための記述
+    @project = Project.find(params[:id])
+    @user = current_user
+    unless Belonging.find_by(organization_id: @project.organization_id,user_id: @user.id) && Member.find_by(project_id: @project.id, user_id: @user.id)
+      redirect_to root_path
     end
   end
 

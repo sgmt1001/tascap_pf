@@ -24,10 +24,10 @@
                 <span><%= user.name %></span>
               </td>
               <td><%= user.introduction %></td>
-              <% if user != current_user %>
-              <td><%= link_to 'invite',organization_belonging_invite_path(@organization, user_id: user.id), data: { confirm: 'このユーザーを招待しますか？' }  %></td>
-              <% elsif Belonging.exists?(user_id: user.id) %>
+              <% if Belonging.exists?(organization_id: @organization.id, user_id: user.id) %>
               <td></td>
+              <% else %>
+              <td><%= link_to 'invite',organization_belonging_invite_path(@organization, user_id: user.id), data: { confirm: 'このユーザーを招待しますか？' }  %></td>
               <% end %>
             </tr>
           <% end %>
