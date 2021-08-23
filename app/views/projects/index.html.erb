@@ -2,29 +2,33 @@
   <div class="row my-3">
     <div class="col-lg-12">
 
-      <h1>project index</h1>
-      <span>organization</span>
-      <span>（プルダウン）</span>
+      <h1>my project</h1>
       <table class='table'>
         <thead>
           <tr>
             <th>name</th>
             <th>overview</th>
-            <th>man hour</th><%# taskのman_hourの合計 %>
-            <th>spendable hour</th>
+            <th>spendable</th>
+            <th>man hour</th>
             <th>capacity</th>
             <th>owner</th>
             <th>member</th>
           </tr>
         </thead>
         <tbody>
-          <% @project.each do |project| %><%# ログインユーザの情報だけ取得したい %>
+          <% @user.projects.each do |project| %><%# ログインユーザの情報だけ取得したい %>
           <tr>
-            <td><%= link_to project.name, organization_project_path(project.id) %></td><%# deleteした時にindexに遷移できない %>
+            <td><%= link_to project.name, organization_project_path(project.organization_id,project.id) %></td><%# deleteした時にindexに遷移できない %>
             <td><%= project.overview %></td>
-            <td>タスクの合計時間</td>
-            <td></td>
-            <td></td>
+            <td><%= Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour %>h</td>
+            <td><%= Task.where(project_id: project.id, user_id: @user.id).sum(:man_hour) %>h</td>
+            <td>
+              <% if Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour != 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述%>
+                <%= Task.where(project_id: project.id, user_id: @user.id).sum(:man_hour).to_f/Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour.to_f*100 %>%
+              <% else %>
+                <%= '-' %>
+              <% end %>
+            </td>
             <td><%= User.find(project.user_id).name %></td>
             <td>メンバーカウント(link)</td>
           </tr>

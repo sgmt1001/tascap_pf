@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row my-3">
     <div class="col-lg-12">
-      <h1>add user</h1>
-      <h4>organization:<%= @organization.name %></h4>
-      <%= form_with url: organization_belonging_search_path, method: :get, local: true do |f| %>
+      <h1>add member</h1>
+      <h4>project:<%= @project.name %></h4>
+      <%= form_with url: project_member_search_path, method: :get, local: true do |f| %>
       <%= f.text_field :name %>
       <%= f.submit :search %>
       <% end %>
@@ -24,10 +24,10 @@
                 <span><%= user.name %></span>
               </td>
               <td><%= user.introduction %></td>
-              <% if Belonging.exists?(organization_id: @organization.id, user_id: user.id) %>
+              <% if Member.exists?(project_id: @project.id, user_id: user.id) %>
               <td></td>
               <% else %>
-              <td><%= link_to 'invite',organization_belonging_invite_path(@organization, user_id: user.id), data: { confirm: 'このユーザーを招待しますか？' }  %></td>
+              <td><%= link_to 'invite',project_member_invite_path(@project, user_id: user.id) , data: { confirm: 'このユーザーを招待しますか？' }  %></td>
               <% end %>
             </tr>
           <% end %>

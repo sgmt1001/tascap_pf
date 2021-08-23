@@ -30,23 +30,33 @@
           <tr>
             <th class="font-weight-bold border-bottom">member</th>
             <th class="font-weight-bold border-bottom">spendable</th>
+            <th class="font-weight-bold border-bottom">man hour </th>
             <th class="font-weight-bold border-bottom">capacity</th>
           </tr>
         </thead>
         <tbody>
-          <%# @projects.each do |project| %>
-          <%# memberからひろってくる %>
+          <% @project.members.each do |member| %>
           <tr>
             <td>
-              <span>(画像)menber名</span>
-              </td>
+              <span><%= attachment_image_tag(member.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+              <span><%= member.user.name %></span>
             </td>
-            <td>(時間)
-            <td>(計算式)</td>
+            <td><%= link_to member.spendable_hour, project_member_spendable_path(member.project.organization_id, member.project_id,member.id) %>h</td>
+            <td><%= Task.where(project_id: @project.id, user_id: member.user_id).sum(:man_hour) %>h</td>
+            <td>
+              <% if member.spendable_hour != 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述%>
+                <%= Task.where(project_id: @project.id, user_id: member.user_id).sum(:man_hour).to_f/member.spendable_hour.to_f*100.round %>%
+              <% else %>
+                <%= '-' %>
+              <% end %>
+            </td>
           </tr>
-          <%# end %>
+          <% end %>
         </tbody>
       </table>
+      <p>
+        <%= link_to 'members', project_member_path(@project.organization_id,@project.id) %>
+      </p>
     </div>
 
     <div class="col-lg-8">

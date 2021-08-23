@@ -1,12 +1,12 @@
 class OrganizationsController < ApplicationController
-
+  before_action :belonging_user, only: [:show, :edit, :belonging,]
 
   def new
     @organization = Organization.new
   end
 
   def index
-    @organization = Organization.all
+    @user = current_user
   end
 
   def show
@@ -17,6 +17,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new(organization_params)
     @organization.user_id = current_user.id
     if @organization.save
+      Belonging.create(organization_id:@organization.id,user_id:current_user.id)#create実行時にorganization作成者をbelongingに自動で追加
       redirect_to organization_path(@organization)
     else
       render 'index'
@@ -52,14 +53,28 @@ class OrganizationsController < ApplicationController
   end
 
   def invite
-  #belongにcheckカラムをつくる true , false, から=見てない
-  #emailからUserを探す
-  #organizationのidもひつよう
-  #Belongingに登録,checkをから
-  #userが承認したらcheckをtrue
-  #checkでorganizationの閲覧許可判定
+    @invite = Belonging.create(organization_id:params[:id],user_id:params[:user_id])
+    @organization = Organization.find(params[:id])
+    @invite.save
+    redirect_to organization_path(@organization)
   end
 
+  def invite_destroy
+    @invite = Belonging.find_by(organization_id:params[:id],user_id:params[:user_id])
+    @invite.destroy
+    @organization = Organization.find(params[:id])
+    redirect_to organization_path(@organization)
+  end
+
+  def belonging_user#組織に参加しているユーザだけがアクセスできるようにするための
+    @organization = Organization.find(params[:id])
+    @user = current_user
+    unless Belonging.find_by(organization_id: @organization.id,user_id: @user.id)
+      redirect_to root_path
+    end
+  end
+
+  private
   def organization_params
     params.require(:organization).permit(:name, :introduction)
   end

@@ -1,6 +1,6 @@
 class Member < ApplicationRecord
 
-  has_many :projects
-  has_many :users
+  belongs_to :project
+  belongs_to :user
 
 end

@@ -2,7 +2,7 @@
   <div class="row my-3">
     <div class="col-lg-12">
 
-      <h1>organization index</h1>
+      <h1>my organization</h1>
       <P><%= link_to 'new organization',new_organization_path %></P>
       <table class='table'>
         <thead>
@@ -10,16 +10,16 @@
             <th>name</th>
             <th>introduction</th>
             <th>owner</th>
-            <th>member</th>
+            <th>belonging</th>
           </tr>
         </thead>
         <tbody>
-          <% @organization.each do |organization| %><%# ログインユーザの情報だけ取得したい %>
+          <% @user.organizations.each do |organization| %><%# ログインユーザの情報だけ取得したい %>
           <tr>
             <td><%= link_to organization.name, organization_path(organization.id) %></td>
             <td><%= organization.introduction %></td>
             <td><%= User.find(organization.user_id).name %></td>
-            <td>メンバーカウント(link)</td>
+            <td><%= Belonging.where(organization_id: organization.id).count %></td>
           </tr>
           <% end %>
         </tbody>

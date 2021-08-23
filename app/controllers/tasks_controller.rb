@@ -1,11 +1,13 @@
 class TasksController < ApplicationController
+  before_action :task_user, only: [:show, :edit]
 
   def new
     @task = Task.new(project_id:params[:project_id])
+    @project = @task.project
   end
 
   def index
-    @task = Task.all
+    @user = current_user
   end
 
   def show
@@ -25,6 +27,7 @@ class TasksController < ApplicationController
 
   def edit
     @task = Task.find(params[:id])
+    @project = Project.find(params[:id])
     if current_user.id == @task.user_id
       render :edit
     else
@@ -44,9 +47,18 @@ class TasksController < ApplicationController
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
-    redirect_to organization_project_path
+    redirect_to organization_project_path(@task.project.organization_id,@task.project_id)
   end
 
+  def task_user#プロジェクトに参加しているユーザだけがアクセスできるようにするための記述
+    @task = Task.find(params[:id])
+    @user = current_user
+    unless Belonging.find_by(organization_id: @task.project.organization_id, user_id: @user.id) && Member.find_by(project_id: @task.project_id , user_id: @user.id)
+      redirect_to root_path
+    end
+  end
+
+  private
   def task_params
     params.require(:task).permit(:name, :detail, :man_hour, :deadline, :status)
   end

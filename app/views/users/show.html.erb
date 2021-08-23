@@ -8,9 +8,9 @@
       <p class="font-weight-bold border-bottom">name</p>
       <p><%= @user.name %></p>
       <p class="font-weight-bold border-bottom">organization</p>
-      <%# @user.organziations.each do |organization| %>
-        <p>所属組織の一覧を出したいができない（レコードにデータが保存されていない？）<%#= organziation.name %></p>
-      <%# end %>
+      <% @user.organizations.each do |organization| %>
+        <p><%= organization.name %></p>
+      <% end %>
       <p class="font-weight-bold border-bottom">introduction</p>
       <p><%= @user.introduction %></p>
       <p><%= link_to 'edit profile',edit_user_path(@user) %></p>
@@ -20,6 +20,8 @@
       <table class='table'>
         <thead>
           <tr>
+            <th>organization</th>
+            <th>project</th>
             <th>task</th>
             <th>man hour</th>
             <th>deadline</th>
@@ -27,14 +29,16 @@
           </tr>
         </thead>
         <tbody>
-          <%# @organization.each do |organization| %>
+          <% @user.tasks.each do |task| %>
           <tr>
-            <td>タスクの名前</td>
-            <td>工数</td>
-            <td>期限</td>
-            <td>ステータス</td>
+            <td><%= task.project.organization.name %></td>
+            <td><%= task.project.name %></td>
+            <td><%= task.name %></td>
+            <td><%= task.man_hour %></td>
+            <td><%= task.deadline %></td>
+            <td><%= task.status %></td>
           </tr>
-          <%# end %>
+          <% end %>
         </tbody>
       </table>
     </div>

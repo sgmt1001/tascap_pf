@@ -5,7 +5,7 @@ class CreateTasks < ActiveRecord::Migration[5.2]
       t.string :name, null: false
       t.text :detail
       t.integer :man_hour, null: false
-      t.time :deadline
+      t.datetime :deadline
       t.integer :status, null: false, default: 0
       t.integer :project_id, null: false
        #紐づくプロジェクトのID
