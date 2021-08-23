@@ -43,7 +43,6 @@
       </table>
 
       <div>
-        <%#<p>コメント件数：<%= @task.comments.count %></p>
         <div class="font-weight-bold">comment</div>
         <% if @task.comments.exists? %>
           <% @task.comments.each do |comment| %>
@@ -58,6 +57,13 @@
             <div>
               <%= comment.content %>
             </div>
+
+            <% if comment.user == current_user %>
+              <div>
+                <%= link_to "delete", organization_project_task_comment_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete %>
+              </div>
+            <% end %>
+
             <br>
           <% end %>
         <% else %>
