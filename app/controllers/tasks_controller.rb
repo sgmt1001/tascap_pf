@@ -13,6 +13,7 @@ class TasksController < ApplicationController
   def show
     @task = Task.find(params[:id])
     @comment = Comment.new
+    @comment_reaction = Comment.find_by(id: params[:id], task_id: @task.id)
   end
 
   def create

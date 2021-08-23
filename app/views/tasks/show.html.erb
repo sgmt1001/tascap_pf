@@ -58,6 +58,20 @@
               <%= comment.content %>
             </div>
 
+            <% if @comment_reaction.reactioned_by?(current_user) %>
+              <p>
+                <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete do %>
+                  ♥<%= @comment_reaction.reactions.count %>
+                <% end %>
+              </p>
+              <% else %>
+              <p>
+                <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :post do %>
+                  ♡️<%= @comment_reaction.reactions.count %>
+                <% end %>
+              </p>
+            <% end %>
+
             <% if comment.user == current_user %>
               <div>
                 <%= link_to "delete", organization_project_task_comment_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete %>
