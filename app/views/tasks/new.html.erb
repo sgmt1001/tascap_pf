@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row my-3">
-    <div class="col-lg-3">
+    <div class="col-lg-12">
       <h1>new task</h1>
 
         <%= form_with model:@task,url: organization_project_tasks_path(@task.project.organization_id,@task.project_id),local:true do |f| %>
@@ -18,7 +18,7 @@
           </div>
           <div>
             <%= f.label :deadline %><br>
-            <%= f.text_field :deadline %>
+            <%= f.datetime_select :deadline %>
           </div>
           <div>
             <%= f.label :status %><br>
@@ -26,7 +26,7 @@
           </div>
           <div>
             <%= f.label :person %><br>
-            <%= f.select :pserson, Member.where(project_id: params[:project_id]), include_blank: true %>
+            <%= f.select :pserson,@task.project.users.name, include_blank: true %>
           </div>
           <br>
           <div>
