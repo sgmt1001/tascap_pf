@@ -4,7 +4,10 @@
       <h1>task detail</h1>
 
       <h3><%= @task.project.name %></h3>
-
+      <p>
+        <%= link_to 'edit',edit_organization_project_task_path(@task.id) %>
+        <%= link_to 'delete',organization_project_task_path(@task.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
+      </p>
       <table class='table'>
         <thead>
           <tr>
@@ -19,7 +22,7 @@
           <tr>
             <td><%= @task.name %></td>
             <td><%= @task.man_hour %></td>
-            <td><%= @task.deadline %></td>
+            <td><%= @task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
             <td><%= @task.status %></td>
             <td><%= @task.user.name %></td>
           </tr>
@@ -38,11 +41,38 @@
           </tr>
         </tbody>
       </table>
+
+      <div>
+        <%#<p>コメント件数：<%= @task.comments.count %></p>
+        <div class="font-weight-bold">comment</div>
+        <% if @task.comments.exists? %>
+          <% @task.comments.each do |comment| %>
+            <span>
+              <span><%= attachment_image_tag(comment.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+              <%= comment.user.name %>
+            </span>
+            <span>
+              <span class="font-weight-bold">datetime:</span>
+              <%= comment.created_at.strftime("%Y/%m/%d %H:%M") %>
+            </span>
+            <div>
+              <%= comment.content %>
+            </div>
+            <br>
+          <% end %>
+        <% else %>
+          <div>no comments submitted yet</div>
+        <% end %>
+        </div>
+        <br>
+        <div>
+        <%= form_with(model:[@task, @comment],url: organization_project_task_comments_path(@task.project.organization_id,@task.project_id,@task.id), local: true) do |f| %>
+          <%= f.text_area :content, size: "60x10", rows:'5' ,placeholder: "new comment" %>
+          <br>
+          <%= f.submit "Comment" %>
+        <% end %>
+      </div>
       <br>
-      <p>
-        <%= link_to 'edit',edit_organization_project_task_path(@task.id) %>
-        <%= link_to 'delete',organization_project_task_path(@task.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
-      </p>
       <p><%= link_to 'back',organization_project_path(@task.project.organization_id,@task.project_id)%></p>
     </div>
   </div>
