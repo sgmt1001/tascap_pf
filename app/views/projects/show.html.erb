@@ -78,7 +78,7 @@
           <tr>
             <td><%= link_to task.name,organization_project_task_path(@project.organization.id,@project.id,task.id) %></td>
             <td><%= task.man_hour %></td>
-            <td><%= task.deadline %></td>
+            <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
             <td><%= task.status %></td>
             <td><%= task.user.name %></td>
           </tr>

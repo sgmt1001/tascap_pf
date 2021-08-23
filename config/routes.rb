@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   patch 'organizations/:id/projects/:id/member/:id' => 'projects#set_spendable_update',as:'project_member_spendable_update'
   resources :organizations do
     resources :projects do
-      resources :tasks
+      resources :tasks do
+        resources :comments, only: [:create, :destroy]
+      end
     end
   end
   resources :users, except: [:new,:create] do
