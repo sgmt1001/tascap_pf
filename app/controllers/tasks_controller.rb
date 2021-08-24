@@ -29,7 +29,6 @@ class TasksController < ApplicationController
 
   def edit
     @task = Task.find(params[:id])
-    @project = Project.find(params[:id])
     if current_user.id == @task.user_id
       render :edit
     else

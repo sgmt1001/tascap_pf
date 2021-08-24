@@ -35,7 +35,7 @@
             <td><%= task.project.name %></td>
             <td><%= task.name %></td>
             <td><%= task.man_hour %></td>
-            <td><%= task.deadline %></td>
+            <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
             <td><%= task.status %></td>
           </tr>
           <% end %>

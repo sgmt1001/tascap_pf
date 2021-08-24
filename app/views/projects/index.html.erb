@@ -30,7 +30,7 @@
               <% end %>
             </td>
             <td><%= User.find(project.user_id).name %></td>
-            <td>メンバーカウント(link)</td>
+            <td><%= Member.where(project_id: project.id).count %></td>
           </tr>
           <% end %>
         </tbody>

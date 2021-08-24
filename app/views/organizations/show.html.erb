@@ -8,16 +8,14 @@
         <thead>
           <tr>
             <th>name</th>
-            <th>introduction</th>
             <th>owner</th>
-            <th>member</th>
+            <th>belonging</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><%= @organization.name %></td>
-            <td><%= @organization.introduction %></td>
             <td><%= User.find(@organization.user_id).name %></td>
             <td><%= link_to Belonging.where(organization_id: @organization.id).count, organization_belonging_path(@organization) %></td>
             <% if @organization.user_id == current_user.id %>
@@ -30,6 +28,19 @@
         </tbody>
       </table>
 
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>introduction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @organization.introduction %></td>
+          </tr>
+        </tbody>
+      </table>
+
       <h3>projects</h3>
       <P><%= link_to 'new project',new_organization_project_path(@organization.id) %></P>
 
@@ -37,8 +48,7 @@
           <thead>
             <tr>
               <th>name</th>
-              <th>overview</th>
-              <th>man hour</th><%# taskのman_hourの合計 %>
+              <th>man hour(project)</th>
               <th>owner</th>
               <th>member</th>
             </tr>
@@ -46,9 +56,14 @@
           <tbody>
             <% @organization.projects.each do |project| %>
             <tr>
-              <td><%= link_to project.name, organization_project_path(@organization.id,project.id) %></td><%# 遷移先が意図通りに動かない　%>
-              <td><%= project.overview %></td>
-              <td>タスクの合計時間</td>
+              <td>
+                <% if project.members.exists?(user_id: current_user.id )%>
+                  <%= link_to project.name, organization_project_path(@organization.id,project.id) %>
+                <% else %>
+                  <%= project.name %>
+                <% end %>
+              </td>
+              <td><%= Task.where(project_id: project.id).sum(:man_hour)%></td>
               <td><%= User.find(project.user_id).name %></td>
               <td><%= Member.where(project_id: project.id).count %></td>
             </tr>
