@@ -7,10 +7,12 @@ class CreateTasks < ActiveRecord::Migration[5.2]
       t.integer :man_hour, null: false
       t.datetime :deadline
       t.integer :status, null: false, default: 0
+      t.string :person, null: false
+        #タスクの担当者
       t.integer :project_id, null: false
-       #紐づくプロジェクトのID
+        #紐づくプロジェクトのID
       t.integer :user_id, null: false
-       #タスクの担当ユーザID、初期は作成者になるようにコントローラで定義
+        #タスクの作成者ユーザID
 
       t.timestamps
     end

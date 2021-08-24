@@ -6,11 +6,11 @@
       <%= form_with model:@project,url:organization_project_path(@project.id),local:true do |f| %>
         <div>
           <%= f.label :name %><br>
-          <%= f.text_field :name %>
+          <%= f.text_field :name, size: "60x10" %>
         </div>
         <div>
           <%= f.label :overview %><br>
-          <%= f.text_area :overview %>
+          <%= f.text_area :overview, size: "60x10" %>
         </div>
         <div>
           <%= f.submit class: 'btn btn-success' %>

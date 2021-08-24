@@ -3,14 +3,18 @@
     <div class="col-lg-12">
 
       <h1>organization detail</h1>
-
+      <% if @organization.user_id == current_user.id %>
+        <p>
+          <%= link_to 'edit',edit_organization_path(@organization.id) %>
+          <%= link_to 'delete',organization_path(@organization.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
+        </p>
+      <% end %>
       <table class='table'>
         <thead>
           <tr>
             <th>name</th>
             <th>owner</th>
             <th>belonging</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -18,12 +22,6 @@
             <td><%= @organization.name %></td>
             <td><%= User.find(@organization.user_id).name %></td>
             <td><%= link_to Belonging.where(organization_id: @organization.id).count, organization_belonging_path(@organization) %></td>
-            <% if @organization.user_id == current_user.id %>
-              <td>
-                <%= link_to 'edit',edit_organization_path(@organization.id) %>
-                <%= link_to 'delete',organization_path(@organization.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
-              </td>
-            <% end %>
           </tr>
         </tbody>
       </table>
@@ -36,7 +34,7 @@
         </thead>
         <tbody>
           <tr>
-            <td><%= @organization.introduction %></td>
+            <td><%= simple_format(@organization.introduction) %></td>
           </tr>
         </tbody>
       </table>

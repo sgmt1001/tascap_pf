@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_114305) do
     t.integer "man_hour", null: false
     t.datetime "deadline"
     t.integer "status", default: 0, null: false
+    t.string "person", null: false
     t.integer "project_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false

@@ -56,14 +56,14 @@ class OrganizationsController < ApplicationController
     @invite = Belonging.create(organization_id:params[:id],user_id:params[:user_id])
     @organization = Organization.find(params[:id])
     @invite.save
-    redirect_to organization_path(@organization)
+    redirect_to organization_belonging_path(@organization)
   end
 
   def invite_destroy
     @invite = Belonging.find_by(organization_id:params[:id],user_id:params[:user_id])
     @invite.destroy
     @organization = Organization.find(params[:id])
-    redirect_to organization_path(@organization)
+    redirect_to organization_belonging_path(@organization)
   end
 
   def belonging_user#組織に参加しているユーザだけがアクセスできるようにするための

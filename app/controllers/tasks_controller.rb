@@ -2,8 +2,13 @@ class TasksController < ApplicationController
   before_action :task_user, only: [:show, :edit]
 
   def new
-    @task = Task.new(project_id:params[:project_id])
-    @project = @task.project
+    @task = Task.new(project_id: params[:project_id])
+    members = Member.where( project_id: params[:project_id] )
+    @users = []
+    members.each do |member|
+      user = User.find(member.user_id)
+      @users.push(user.name)
+    end
   end
 
   def index
@@ -12,8 +17,9 @@ class TasksController < ApplicationController
 
   def show
     @task = Task.find(params[:id])
+    @user = @task.user
     @comment = Comment.new
-    @comment_reaction = Comment.find_by(id: params[:id], task_id: @task.id)
+    @comment_reaction = Comment.find_by(task_id: @task.id,user_id: @user.id)
   end
 
   def create
@@ -29,6 +35,12 @@ class TasksController < ApplicationController
 
   def edit
     @task = Task.find(params[:id])
+     members = Member.where( project_id: @task.project_id )
+     @users = []
+     members.each do |member|
+       user = User.find(member.user_id)
+       @users.push(user.name)
+     end
     if current_user.id == @task.user_id
       render :edit
     else
@@ -54,14 +66,14 @@ class TasksController < ApplicationController
   def task_user#プロジェクトに参加しているユーザだけがアクセスできるようにするための記述
     @task = Task.find(params[:id])
     @user = current_user
-    unless Belonging.find_by(organization_id: @task.project.organization_id, user_id: @user.id) && Member.find_by(project_id: @task.project_id , user_id: @user.id)
+    unless Belonging.find_by(organization_id: @task.project.organization_id) && Member.find_by(project_id: @task.project_id)
       redirect_to root_path
     end
   end
 
   private
   def task_params
-    params.require(:task).permit(:name, :detail, :man_hour, :deadline, :status)
+    params.require(:task).permit(:name, :detail, :man_hour, :deadline, :status, :person)
   end
 
 end

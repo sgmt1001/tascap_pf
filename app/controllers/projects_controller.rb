@@ -11,6 +11,10 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    #tasks = Task.where( project_id: @task.project_id )
+     @project.tasks.each do |task|
+       @person = task.person
+     end
   end
 
   def create
@@ -59,7 +63,7 @@ class ProjectsController < ApplicationController
     @invite.save
     @project = Project.find(params[:id])
     @organization = @project.organization_id
-    redirect_to organization_project_path(@project.organization_id,@project.id)
+    redirect_to project_member_path(@project.organization_id,@project.id)
   end
 
   def invite_destroy
