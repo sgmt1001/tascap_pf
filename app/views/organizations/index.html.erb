@@ -16,7 +16,7 @@
           <% @user.organizations.each do |organization| %><%# ログインユーザの情報だけ取得したい %>
           <tr>
             <td><%= link_to organization.name, organization_path(organization.id) %></td>
-            <td><%= User.find(organization.user_id).name %></td>
+            <td><%= link_to User.find(organization.user_id).name,user_path(@user.id) %></td>
             <td><%= link_to Belonging.where(organization_id: organization.id).count, organization_belonging_path(organization.id) %></td>
           </tr>
           <% end %>

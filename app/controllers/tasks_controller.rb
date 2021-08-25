@@ -12,7 +12,9 @@ class TasksController < ApplicationController
   end
 
   def index
+    
     @user = current_user
+    @task = Task.where(person: @user.name)
   end
 
   def show

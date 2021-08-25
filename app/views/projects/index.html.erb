@@ -7,7 +7,6 @@
         <thead>
           <tr>
             <th>name</th>
-            <th>overview</th>
             <th>spendable</th>
             <th>man hour</th>
             <th>capacity</th>
@@ -16,10 +15,9 @@
           </tr>
         </thead>
         <tbody>
-          <% @user.projects.each do |project| %><%# ログインユーザの情報だけ取得したい %>
+          <% @user.projects.each do |project| %>
           <tr>
             <td><%= link_to project.name, organization_project_path(project.organization_id,project.id) %></td><%# deleteした時にindexに遷移できない %>
-            <td><%= project.overview %></td>
             <td><%= Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour %>h</td>
             <td><%= Task.where(project_id: project.id, user_id: @user.id).sum(:man_hour) %>h</td>
             <td>
@@ -29,8 +27,8 @@
                 <%= '-' %>
               <% end %>
             </td>
-            <td><%= User.find(project.user_id).name %></td>
-            <td><%= Member.where(project_id: project.id).count %></td>
+            <td><%= link_to User.find(project.user_id).name, user_path(@user.id) %></td>
+            <td><%= link_to Member.where(project_id: project.id).count, project_member_path(project.organization_id, project.id) %></td>
           </tr>
           <% end %>
         </tbody>

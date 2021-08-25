@@ -20,7 +20,7 @@
         <tbody>
           <tr>
             <td><%= @organization.name %></td>
-            <td><%= User.find(@organization.user_id).name %></td>
+            <td><%= link_to User.find(@organization.user_id).name, user_path(@user.id) %></td>
             <td><%= link_to Belonging.where(organization_id: @organization.id).count, organization_belonging_path(@organization) %></td>
           </tr>
         </tbody>
@@ -62,8 +62,8 @@
                 <% end %>
               </td>
               <td><%= Task.where(project_id: project.id).sum(:man_hour)%></td>
-              <td><%= User.find(project.user_id).name %></td>
-              <td><%= Member.where(project_id: project.id).count %></td>
+              <td><%= link_to User.find(project.user_id).name, user_path(@user.id) %></td>
+              <td><%= link_to Member.where(project_id: project.id).count, project_member_path(@organization.id, project.id) %></td>
             </tr>
             <% end %>
           </tbody>

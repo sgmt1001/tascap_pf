@@ -13,7 +13,7 @@
       <p><%= @user.name %></p>
       <p class="font-weight-bold border-bottom">organization</p>
       <% @user.organizations.each do |organization| %>
-        <p><%= organization.name %></p>
+        <p><%= link_to organization.name, organization_path(organization.id) %></p>
       <% end %>
       <p class="font-weight-bold border-bottom">introduction</p>
       <p><%= @user.introduction %></p>
@@ -33,7 +33,7 @@
         <tbody>
           <% @user.tasks.each do |task| %>
           <tr>
-            <td><%= task.name %></td>
+            <td><%= link_to task.name,organization_project_task_path(task.project.organization_id,task.project_id,task.id) %></td>
             <td><%= task.man_hour %></td>
             <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
             <td><%= task.status %></td>

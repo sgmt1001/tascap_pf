@@ -4,7 +4,7 @@
       <h1>project detail</h1>
 
       <p class="font-weight-bold border-bottom">organization</p>
-      <p><%= @project.organization.name %></p>
+      <p><%= link_to @project.organization.name, organization_path(@project.organization_id) %></p>
 
       <p class="font-weight-bold border-bottom">project</p>
       <span class="font-weight-bold">name</span>
@@ -13,7 +13,7 @@
       <br>
       <span class="font-weight-bold">owner</span>
       <br>
-      <span><%= User.find(@project.user_id).name %></span>
+      <span><%= link_to User.find(@project.user_id).name, user_path(@project.user_id) %></span>
       <br>
       <span class="font-weight-bold">overview</span>
       <p><%= simple_format(@project.overview) %></p>
@@ -39,13 +39,13 @@
           <tr>
             <td>
               <span><%= attachment_image_tag(member.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
-              <span><%= member.user.name %></span>
+              <span><%= link_to member.user.name, user_path(member.user_id) %></span>
             </td>
             <td><%= link_to member.spendable_hour, project_member_spendable_path(@project.organization_id, @project.id,member.id) %>h</td>
             <td><%= Task.where(person: member.user.name ).sum(:man_hour) %></td><%#= Task.where(project_id: @project.id, user_id: member.user_id).sum(:man_hour) %>
             <td>
               <% if member.spendable_hour != 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述%>
-                <%= Task.where(person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100.round %>%
+                <%= (Task.where(person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
               <% else %>
                 <%= '-' %>
               <% end %>
