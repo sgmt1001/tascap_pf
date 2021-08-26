@@ -22,7 +22,7 @@
             <td><%= Task.where(project_id: project.id, user_id: @user.id).sum(:man_hour) %>h</td>
             <td>
               <% if Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour != 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述%>
-                <%= Task.where(project_id: project.id, user_id: @user.id).sum(:man_hour).to_f/Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour.to_f*100 %>%
+                <%= (Task.where(person: @user.name ).sum(:man_hour).to_f/Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour.to_f*100).round(2) %>%
               <% else %>
                 <%= '-' %>
               <% end %>

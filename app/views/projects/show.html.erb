@@ -42,7 +42,7 @@
               <span><%= link_to member.user.name, user_path(member.user_id) %></span>
             </td>
             <td><%= link_to member.spendable_hour, project_member_spendable_path(@project.organization_id, @project.id,member.id) %>h</td>
-            <td><%= Task.where(person: member.user.name ).sum(:man_hour) %></td><%#= Task.where(project_id: @project.id, user_id: member.user_id).sum(:man_hour) %>
+            <td><%= Task.where(person: member.user.name ).sum(:man_hour) %></td>
             <td>
               <% if member.spendable_hour != 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述%>
                 <%= (Task.where(person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
