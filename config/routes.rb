@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :projects do
       resources :tasks do
         resources :comments, only: [:create, :destroy] do
-           resource :reactions, only: [:create, :destroy]
+           resources :reactions, only: [:create, :destroy]
         end
       end
     end

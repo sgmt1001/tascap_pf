@@ -29,10 +29,10 @@
       <table style="width :100%">
         <thead>
           <tr>
-            <th class="font-weight-bold border-bottom">member</th>
-            <th class="font-weight-bold border-bottom">spendable</th>
-            <th class="font-weight-bold border-bottom">man hour </th>
-            <th class="font-weight-bold border-bottom">capacity</th>
+            <th class="font-weight-bold border-bottom text-center">member</th>
+            <th class="font-weight-bold border-bottom text-center">spendable</th>
+            <th class="font-weight-bold border-bottom text-center">man hour </th>
+            <th class="font-weight-bold border-bottom text-center">capacity</th>
           </tr>
         </thead>
         <tbody>
@@ -42,25 +42,25 @@
               <span><%= attachment_image_tag(member.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
               <span><%= link_to member.user.name, user_path(member.user_id) %></span>
             </td>
-            <td>
+            <td class="text-center">
               <% if member.user == current_user %>
                 <%= link_to member.spendable_hour, project_member_spendable_path(@project.organization_id, @project.id,member.id) %>h
               <% else %>
                 <%= member.spendable_hour %>h
               <% end %>
               </td>
-            <td><%= Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour) %></td>
+            <td class="text-center"><%= Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour) %>h</td>
 
               <% if member.spendable_hour == 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述 %>
                 <td>
                   <%= '-' %>
                 </td>
               <% elsif member.spendable_hour <= Task.where(person: member.user.name ).sum(:man_hour)%><%# capasityが100％を超える時に赤字で表示するための記述 %>
-                <td class="text-danger">
+                <td class="text-danger text-center">
                 <%= (Task.where(person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
                 </td>
               <% else %>
-                <td>
+                <td class="text-center">
                 <%= (Task.where(person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
                 </td>
               <% end %>
@@ -84,6 +84,7 @@
             <th>man hour</th>
             <th>deadline</th>
             <th>status</th>
+            <th>comment</th>
             <th>person</th>
           </tr>
         </thead>
@@ -94,6 +95,7 @@
             <td><%= task.man_hour %></td>
             <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
             <td><%= task.status %></td>
+            <td><%= Comment.where(task_id: task.id).count %></td>
             <td>
               <span><%= attachment_image_tag(User.find_by(name: task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
               <span><%= task.person %></span>

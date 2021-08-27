@@ -9,6 +9,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    @task = Task.find(params[:task_id])
     Comment.find_by(id: params[:id], task_id: params[:task_id]).destroy
     redirect_to organization_project_task_path(@task.project.organization_id,@task.project_id,@task.id)
   end

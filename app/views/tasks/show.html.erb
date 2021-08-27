@@ -45,9 +45,9 @@
           </tr>
         </tbody>
       </table>
-      <div>
-        <span class="font-weight-bold">created by:</span>
-        <span><%= @task.user.name %></span>
+      <div class="text-right">
+        <span class="font-weight-bold">task created by:</span>
+        <span><%= link_to @task.user.name, user_path(@task.user_id) %></span>
       </div>
       <br>
       <div>
@@ -68,7 +68,7 @@
 
             <% if @comment_reaction.reactioned_by?(current_user) %>
               <p>
-                <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete do %>
+                <%= link_to organization_project_task_comment_reaction_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete do %>
                   ♥<%= @comment_reaction.reactions.count %>
                 <% end %>
               </p>
