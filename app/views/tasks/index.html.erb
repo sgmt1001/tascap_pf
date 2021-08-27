@@ -9,7 +9,6 @@
               <th>man hour</th>
               <th>deadline</th>
               <th>status</th>
-              <th>person</th>
             </tr>
           </thead>
           <tbody>
@@ -19,7 +18,6 @@
               <td><%= task.man_hour %></td>
               <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
               <td><%= task.status %></td>
-              <td><%= task.person %></td>
             </tr>
             <% end %>
           </tbody>

@@ -12,7 +12,11 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="/"><span>tascap</span></a>
+        <div>
+          <%= link_to root_path do %>
+            <%= image_tag 'logo_transparent',:size =>'120x60' %>
+          <% end %>
+        </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,10 +40,18 @@
     </nav>
   </header>
 
-
   <body>
     <%= yield %>
   </body>
+
+    <footer class="footer navbar navbar-expand-lg navbar-dark bg-dark" >
+      <div class="footer_text">
+        <div class="text-white">
+          © 2021 sgmt1001
+        </div>
+      </div>
+    </footer>
+
 </html>
 
 

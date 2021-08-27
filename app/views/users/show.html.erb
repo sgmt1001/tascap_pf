@@ -11,32 +11,42 @@
       </div>
       <p class="font-weight-bold border-bottom">name</p>
       <p><%= @user.name %></p>
-      <p class="font-weight-bold border-bottom">organization</p>
-      <% @user.organizations.each do |organization| %>
-        <p><%= link_to organization.name, organization_path(organization.id) %></p>
-      <% end %>
       <p class="font-weight-bold border-bottom">introduction</p>
-      <p><%= @user.introduction %></p>
-      <p><%= link_to 'edit profile',edit_user_path(@user) %></p>
+      <p><%= simple_format(@user.introduction) %></p>
+      <p><%= link_to 'edit',edit_user_path(@user), class: "btn btn-success" %></p>
     </div>
 
     <div class="col-lg-8" style="height: 100%">
       <table class='table'>
         <thead>
           <tr>
-            <th>task</th>
-            <th>man hour</th>
-            <th>deadline</th>
-            <th>status</th>
+            <th>organization</th>
+            <th>project</th>
+            <th>spendable</th>
+            <th>man_hour</th>
+            <th>capacity</th>
           </tr>
         </thead>
         <tbody>
-          <% @user.tasks.each do |task| %>
+          <% @user.projects.each do |project| %>
           <tr>
-            <td><%= link_to task.name,organization_project_task_path(task.project.organization_id,task.project_id,task.id) %></td>
-            <td><%= task.man_hour %></td>
-            <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
-            <td><%= task.status %></td>
+            <td><%= link_to project.organization.name, organization_path(project.organization_id) %></td>
+            <td><%= link_to project.name, organization_project_path(project.organization_id,project.id) %></td>
+            <td><%= Member.find_by(user_id: @user.id).spendable_hour %></td>
+            <td><%= Task.where(project_id: project.id, person: @user.name ).sum(:man_hour) %></td>
+            <% if Member.find_by(user_id: @user.id).spendable_hour == 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述 %>
+              <td>
+                <%= '-' %>
+              </td>
+            <% elsif Member.find_by(user_id: @user.id).spendable_hour <= Task.where(person: @user.name ).sum(:man_hour) %><%# capasityが100％を超える時に赤字で表示するための記述 %>
+              <td class="text-danger">
+              <%= (Task.where(person: @user.name ).sum(:man_hour).to_f/Member.find_by(user_id: @user.id).spendable_hour.to_f*100).round(2)%>%
+              </td>
+            <% else %>
+              <td>
+              <%= (Task.where(person: @user.name ).sum(:man_hour).to_f/Member.find_by(user_id: @user.id).spendable_hour.to_f*100).round(2)%>%
+              </td>
+            <%end%>
           </tr>
           <% end %>
         </tbody>

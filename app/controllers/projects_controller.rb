@@ -11,10 +11,6 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
-    #tasks = Task.where( project_id: @task.project_id )
-     @project.tasks.each do |task|
-       @person = task.person
-     end
   end
 
   def create

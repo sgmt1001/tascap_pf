@@ -12,7 +12,6 @@ class TasksController < ApplicationController
   end
 
   def index
-    
     @user = current_user
     @task = Task.where(person: @user.name)
   end
@@ -43,7 +42,7 @@ class TasksController < ApplicationController
        user = User.find(member.user_id)
        @users.push(user.name)
      end
-    if current_user.id == @task.user_id
+    if Member.exists?(project_id: @task.project_id)
       render :edit
     else
       redirect_to organization_project_task_path(@task.project.organization_id,@task.project_id,@task.id)

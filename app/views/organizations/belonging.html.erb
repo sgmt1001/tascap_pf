@@ -3,7 +3,7 @@
     <div class="col-lg-12">
       <h1>belonging user</h1>
       <h4>organization:<%= @organization.name %></h4>
-      <div><%= link_to 'add user',organization_belonging_search_path(@organization) %></div>
+      <p class="text-right"><%= link_to 'add user',organization_belonging_search_path(@organization), class: "btn btn-primary" %></p>
       <table class='table'>
         <thead>
           <tr>
@@ -17,11 +17,11 @@
             <tr>
               <td>
                 <span><%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
-                <span><%= user.name %></span>
+                <span><%= link_to user.name,user_path(user.id) %></span>
               </td>
               <td><%= user.introduction %></td>
-              <% if user.id != @organization.user_id %>
-              <td><%= link_to 'delete',organization_belonging_invite_destroy_path(@organization.id,user_id: user.id),method: :delete, data: { confirm: '本当に消しますか？' } %></td>
+              <% if current_user.id == @organization.user_id %>
+              <td><%= link_to 'delete',organization_belonging_invite_destroy_path(@organization.id,user_id: user.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %></td>
               <% end %>
             </tr>
           <% end %>

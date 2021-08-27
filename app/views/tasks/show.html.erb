@@ -4,9 +4,9 @@
       <h1>task detail</h1>
 
       <h3><%= @task.project.name %></h3>
-      <p>
-        <%= link_to 'edit',edit_organization_project_task_path(@task.id) %>
-        <%= link_to 'delete',organization_project_task_path(@task.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
+      <p class="text-right">
+        <%= link_to 'edit',edit_organization_project_task_path(@task.id), class: "btn btn-success" %>
+        <%= link_to 'delete',organization_project_task_path(@task.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %>
       </p>
       <table class='table'>
         <thead>
@@ -24,7 +24,10 @@
             <td><%= @task.man_hour %></td>
             <td><%= @task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
             <td><%= @task.status %></td>
-            <td><%= @task.person %></td>
+            <td>
+              <span><%= attachment_image_tag(User.find_by(name: @task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+              <span><%= @task.person %></span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -81,7 +84,7 @@
 
             <% if comment.user == current_user %>
               <div>
-                <%= link_to "delete", organization_project_task_comment_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete %>
+                <%= link_to "delete", organization_project_task_comment_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete, class: "btn btn-danger"  %>
               </div>
             <% end %>
 

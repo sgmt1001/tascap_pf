@@ -7,21 +7,22 @@
       <p><%= link_to @project.organization.name, organization_path(@project.organization_id) %></p>
 
       <p class="font-weight-bold border-bottom">project</p>
-      <span class="font-weight-bold">name</span>
+      <u class="font-weight-bold">name</u>
       <br>
       <span><%= @project.name %></span>
       <br>
-      <span class="font-weight-bold">owner</span>
+      <u class="font-weight-bold">owner</u>
       <br>
+      <span><%= attachment_image_tag(User.find(@project.user_id), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
       <span><%= link_to User.find(@project.user_id).name, user_path(@project.user_id) %></span>
       <br>
-      <span class="font-weight-bold">overview</span>
-      <p><%= simple_format(@project.overview) %></p>
+      <u class="font-weight-bold">overview</u>
+      <span><%= simple_format(@project.overview) %></span>
       <p>
         <% if @project.user_id == current_user.id %>
           <p>
-            <%= link_to 'edit',edit_organization_project_path(@project.id) %>
-            <%= link_to 'delete',organization_project_path(@project.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
+            <%= link_to 'edit',edit_organization_project_path(@project.id), class: "btn btn-success" %>
+            <%= link_to 'delete',organization_project_path(@project.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %>
           </p>
         <% end %>
       </p>
@@ -41,28 +42,41 @@
               <span><%= attachment_image_tag(member.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
               <span><%= link_to member.user.name, user_path(member.user_id) %></span>
             </td>
-            <td><%= link_to member.spendable_hour, project_member_spendable_path(@project.organization_id, @project.id,member.id) %>h</td>
-            <td><%= Task.where(person: member.user.name ).sum(:man_hour) %></td>
             <td>
-              <% if member.spendable_hour != 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述%>
-                <%= (Task.where(person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
+              <% if member.user == current_user %>
+                <%= link_to member.spendable_hour, project_member_spendable_path(@project.organization_id, @project.id,member.id) %>h
               <% else %>
-                <%= '-' %>
+                <%= member.spendable_hour %>h
               <% end %>
-            </td>
+              </td>
+            <td><%= Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour) %></td>
+
+              <% if member.spendable_hour == 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述 %>
+                <td>
+                  <%= '-' %>
+                </td>
+              <% elsif member.spendable_hour <= Task.where(person: member.user.name ).sum(:man_hour)%><%# capasityが100％を超える時に赤字で表示するための記述 %>
+                <td class="text-danger">
+                <%= (Task.where(person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
+                </td>
+              <% else %>
+                <td>
+                <%= (Task.where(person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
+                </td>
+              <% end %>
           </tr>
           <% end %>
         </tbody>
       </table>
       <p>
-        <%= link_to 'members', project_member_path(@project.organization_id,@project.id) %>
+        <%= link_to 'edit', project_member_path(@project.organization_id,@project.id), class: "btn btn-success" %>
       </p>
     </div>
 
     <div class="col-lg-8">
       <table class='table'>
-        <p>
-          <%= link_to 'new task',new_organization_project_task_path(@project.organization_id,@project.id) %>
+        <p class="text-right">
+          <%= link_to 'new task',new_organization_project_task_path(@project.organization_id,@project.id), class: "btn btn-primary" %>
         </p>
         <thead>
           <tr>
@@ -80,7 +94,10 @@
             <td><%= task.man_hour %></td>
             <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
             <td><%= task.status %></td>
-            <td><%= task.person %></td>
+            <td>
+              <span><%= attachment_image_tag(User.find_by(name: task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+              <span><%= task.person %></span>
+            </td>
           </tr>
           <% end %>
         </tbody>
