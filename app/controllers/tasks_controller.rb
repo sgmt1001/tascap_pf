@@ -20,7 +20,7 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     @user = @task.user
     @comment = Comment.new
-    @comment_reaction = Comment.find_by(task_id: @task.id,user_id: @user.id)
+    # @comment_reaction = Comment.find_by(task_id: @task.id,user_id: @user.id)
   end
 
   def create

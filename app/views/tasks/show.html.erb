@@ -47,6 +47,7 @@
       </table>
       <div class="text-right">
         <span class="font-weight-bold">task created by:</span>
+        <span><%= attachment_image_tag(@task.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
         <span><%= link_to @task.user.name, user_path(@task.user_id) %></span>
       </div>
       <br>
@@ -66,17 +67,17 @@
               <%= comment.content %>
             </div>
 
-            <% if @comment_reaction.reactioned_by?(current_user) %>
+            <% if comment.reactioned_by?(current_user) %>
               <p>
-                <%= link_to organization_project_task_comment_reaction_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete do %>
-                  ♥<%= @comment_reaction.reactions.count %>
+                <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete do %>
+                  ♥<%= comment.reactions.count %>
                 <% end %>
               </p>
               <% else %>
               <p>
                 <% if comment.user != current_user %><%# 自分のコメントにはいいねできないようにするための記述 %>
                   <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :post do %>
-                    ♡<%= @comment_reaction.reactions.count %>
+                    ♡<%= comment.reactions.count %>
                   <% end %>
                 <% end %>
               </p>
