@@ -25,7 +25,7 @@
             <td><%= @task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
             <td><%= @task.status %></td>
             <td>
-              <span><%= attachment_image_tag(User.find_by(name: @task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+              <span><%= attachment_image_tag(User.find_by(name: @task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40') %></span>
               <span><%= @task.person %></span>
             </td>
           </tr>
@@ -47,7 +47,7 @@
       </table>
       <div class="text-right">
         <span class="font-weight-bold">task created by:</span>
-        <span><%= attachment_image_tag(@task.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+        <span><%= attachment_image_tag(@task.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40') %></span>
         <span><%= link_to @task.user.name, user_path(@task.user_id) %></span>
       </div>
       <br>
@@ -56,7 +56,7 @@
         <% if @task.comments.exists? %>
           <% @task.comments.each do |comment| %>
             <span>
-              <span><%= attachment_image_tag(comment.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+              <span><%= attachment_image_tag(comment.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40') %></span>
               <%= comment.user.name %>
             </span>
             <span>

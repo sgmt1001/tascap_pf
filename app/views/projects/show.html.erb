@@ -13,7 +13,7 @@
       <br>
       <u class="font-weight-bold">owner</u>
       <br>
-      <span><%= attachment_image_tag(User.find(@project.user_id), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+      <span><%= attachment_image_tag(User.find(@project.user_id), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40') %></span>
       <span><%= link_to User.find(@project.user_id).name, user_path(@project.user_id) %></span>
       <br>
       <u class="font-weight-bold">overview</u>
@@ -39,7 +39,7 @@
           <% @project.members.each do |member| %>
           <tr>
             <td>
-              <span><%= attachment_image_tag(member.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+              <span><%= attachment_image_tag(member.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40') %></span>
               <span><%= link_to member.user.name, user_path(member.user_id) %></span>
             </td>
             <td class="text-center">
@@ -97,7 +97,7 @@
             <td><%= task.status %></td>
             <td><%= Comment.where(task_id: task.id).count %></td>
             <td>
-              <span><%= attachment_image_tag(User.find_by(name: task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpeg", size: '40x40') %></span>
+              <span><%= attachment_image_tag(User.find_by(name: task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40') %></span>
               <span><%= task.person %></span>
             </td>
           </tr>
