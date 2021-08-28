@@ -7,7 +7,7 @@
       <h1>user info</h1>
     <% end %>
       <div>
-        <%= attachment_image_tag(@user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '100x100') %>
+        <%= attachment_image_tag(@user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '100x100',class: "profile_img") %>
       </div>
       <p class="font-weight-bold border-bottom">name</p>
       <p><%= @user.name %></p>
