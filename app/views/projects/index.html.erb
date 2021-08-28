@@ -30,7 +30,7 @@
               </td>
             <% elsif Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour <= Task.where(project_id: project.id, person: @user.name ).sum(:man_hour) %><%# capasityが100％を超える時に赤字で表示するための記述 %>
               <td class="text-danger">
-                <%= (Task.where(project_id: project.id, person: @user.name ).sum(:man_hour).to_f/Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour.to_f*100).round(2) %>
+                <%= (Task.where(project_id: project.id, person: @user.name ).sum(:man_hour).to_f/Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour.to_f*100).round(2) %>%
               </td>
             <% else %>
               <td>
