@@ -51,17 +51,17 @@
               </td>
             <td class="text-center"><%= Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour) %>h</td>
 
-              <% if Member.find_by(project_id: member.project_id, user_id: @user.id).spendable_hour == 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述 %>
+              <% if member.spendable_hour == 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述 %>
                 <td>
                   <%= '-' %>
                 </td>
-              <% elsif Member.find_by(project_id: member.project_id, user_id: @user.id).spendable_hour <= Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour)%><%# capasityが100％を超える時に赤字で表示するための記述 %>
+              <% elsif member.spendable_hour <= Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour)%><%# capasityが100％を超える時に赤字で表示するための記述 %>
                 <td class="text-danger text-center">
-                <%= (Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour).to_f/Member.find_by(project_id: member.project_id, user_id: @user.id).spendable_hour.to_f*100).round(2) %>%
+                <%= (Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
                 </td>
               <% else %>
                 <td class="text-center">
-                <%= (Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour).to_f/Member.find_by(project_id: member.project_id, user_id: @user.id).spendable_hour.to_f*100).round(2) %>%
+                <%= (Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
                 </td>
               <% end %>
           </tr>
