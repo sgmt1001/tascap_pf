@@ -22,7 +22,7 @@
             <td><%= link_to project.organization.name, organization_path(project.organization_id) %></td>
             <td><%= link_to project.name, organization_project_path(project.organization_id,project.id) %></td><%# deleteした時にindexに遷移できない %>
             <td><%= Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour %>h</td>
-            <td><%= Task.where(project_id: project.id, user_id: @user.id).sum(:man_hour) %>h</td>
+            <td><%= Task.where(project_id: project.id, person: @user.name).sum(:man_hour) %>h</td>
 
             <% if Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour == 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述 %>
               <td>
