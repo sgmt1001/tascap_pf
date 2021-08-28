@@ -20,13 +20,16 @@
                 <span><%= link_to user.name,user_path(user.id) %></span>
               </td>
               <td><%= user.introduction %></td>
-              <% if current_user.id == @organization.user_id %>
+              <% if current_user.id == user.id %>
+              <td><%= link_to 'delete',organization_belonging_invite_destroy_path(@organization.id,user_id: user.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %></td>
+              <% elsif current_user.id == @organization.user_id %>
               <td><%= link_to 'delete',organization_belonging_invite_destroy_path(@organization.id,user_id: user.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %></td>
               <% end %>
             </tr>
           <% end %>
         </tbody>
       </table>
+      <p><%= link_to 'organization detail',organization_path(@organization.id)%></p>
     </div>
   </div>
 </div>

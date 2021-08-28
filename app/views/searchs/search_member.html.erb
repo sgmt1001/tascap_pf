@@ -27,7 +27,7 @@
               <% if Member.exists?(project_id: @project.id, user_id: user.id) %>
               <td></td>
               <% else %>
-              <td><%= link_to 'invite',project_member_invite_path(@project, user_id: user.id) , data: { confirm: 'このユーザーを招待しますか？' }  %></td>
+              <td><%= link_to 'invite',project_member_invite_path(@project, user_id: user.id) , data: { confirm: 'このユーザーを招待しますか？' }, class: "btn btn-primary" %></td>
               <% end %>
             </tr>
           <% end %>

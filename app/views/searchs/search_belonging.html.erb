@@ -27,7 +27,7 @@
               <% if Belonging.exists?(organization_id: @organization.id, user_id: user.id) %>
               <td></td>
               <% else %>
-              <td><%= link_to 'invite',organization_belonging_invite_path(@organization, user_id: user.id), data: { confirm: 'このユーザーを招待しますか？' }  %></td>
+              <td><%= link_to 'invite',organization_belonging_invite_path(@organization, user_id: user.id), data: { confirm: 'このユーザーを招待しますか？' }, class: "btn btn-primary" %></td>
               <% end %>
             </tr>
           <% end %>

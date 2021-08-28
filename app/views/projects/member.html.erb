@@ -21,12 +21,15 @@
               </td>
               <td><%= user.introduction %></td>
               <% if current_user.id == @project.user_id %>
-              <td><%= link_to 'delete',project_member_invite_destroy_path(@project.id,user_id: user.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %></td>
+                <td><%= link_to 'delete',project_member_invite_destroy_path(@project.id,user_id: user.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %></td>
+              <% elsif current_user.id == user.id %>
+                <td><%= link_to 'delete',project_member_invite_destroy_path(@project.id,user_id: user.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %></td>
               <% end %>
             </tr>
           <% end %>
         </tbody>
       </table>
+      <p><%= link_to 'project detail',organization_project_path(@project.organization.id, @project.id) %></p>
     </div>
   </div>
 </div>
