@@ -5,6 +5,8 @@
         <table class='table'>
           <thead>
             <tr>
+              <th>organization</th>
+              <th>project</th>
               <th>task</th>
               <th>man hour</th>
               <th>deadline</th>
@@ -14,6 +16,8 @@
           <tbody>
             <% @task.each do |task| %>
             <tr>
+              <td><%= link_to task.project.organization.name, organization_path(task.project.organization_id) %></td>
+              <td><%= link_to task.project.name, organization_project_path(task.project.organization_id, task.project_id) %></td>
               <td><%= link_to task.name, organization_project_task_path(task.project.organization_id, task.project_id, task.id) %></td>
               <td><%= task.man_hour %></td>
               <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
