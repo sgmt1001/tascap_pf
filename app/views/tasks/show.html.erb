@@ -1,0 +1,110 @@
+<div class="container">
+  <div class="row my-3">
+    <div class="col-lg-12">
+      <h1>task detail</h1>
+
+      <h3><%= @task.project.name %></h3>
+      <p class="text-right">
+        <%= link_to 'edit',edit_organization_project_task_path(@task.id), class: "btn btn-success" %>
+        <%= link_to 'delete',organization_project_task_path(@task.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %>
+      </p>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>task</th>
+            <th>man hour</th>
+            <th>deadline</th>
+            <th>status</th>
+            <th>person</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @task.name %></td>
+            <td><%= @task.man_hour %></td>
+            <td><%= @task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
+            <td><%= @task.status %></td>
+            <td>
+              <span><%= attachment_image_tag(User.find_by(name: @task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+              <span><%= @task.person %></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= simple_format(@task.detail) %></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-right">
+        <span class="font-weight-bold">task created by:</span>
+        <span><%= attachment_image_tag(@task.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+        <span><%= link_to @task.user.name, user_path(@task.user_id) %></span>
+      </div>
+      <br>
+      <div>
+        <h3>comment</h3>
+        <% if @task.comments.exists? %>
+          <% @task.comments.each do |comment| %>
+            <span>
+              <span><%= attachment_image_tag(comment.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+              <%= comment.user.name %>
+            </span>
+            <span>
+              <span class="font-weight-bold">datetime:</span>
+              <%= comment.created_at.strftime("%Y/%m/%d %H:%M") %>
+            </span>
+            <div>
+              <%= comment.content %>
+            </div>
+
+            <% if comment.reactioned_by?(current_user) %>
+              <p>
+                <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete do %>
+                  ♥<%= comment.reactions.count %>
+                <% end %>
+              </p>
+              <% else %>
+              <p>
+                <% if comment.user != current_user %><%# 自分のコメントにはいいねできないようにするための記述 %>
+                  <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :post do %>
+                    ♡<%= comment.reactions.count %>
+                  <% end %>
+                <% end %>
+              </p>
+            <% end %>
+
+            <% if comment.user == current_user %>
+              <div>
+                <%= link_to "delete", organization_project_task_comment_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete, class: "btn btn-danger"  %>
+              </div>
+            <% end %>
+
+            <br>
+          <% end %>
+        <% else %>
+          <div>no comments submitted yet</div>
+        <% end %>
+        </div>
+        <br>
+        <div>
+        <%= form_with(model:[@task, @comment],url: organization_project_task_comments_path(@task.project.organization_id,@task.project_id,@task.id), local: true) do |f| %>
+          <%= f.text_area :content, size: "60x10", rows:'5' ,placeholder: "new comment" %>
+          <br>
+          <%= f.submit "Comment" %>
+        <% end %>
+      </div>
+      <br>
+      <p><%= link_to 'back',organization_project_path(@task.project.organization_id,@task.project_id)%></p>
+    </div>
+  </div>
+</div>

@@ -14,3 +14,26 @@
  *= require_self
  */
 @import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  margin-top: auto;
+}
+
+.footer_text{
+  margin: auto;
+  display: flex;
+	align-items: center;
+  height: 50px;
+}
+
+.profile_img {
+  border-radius: 50%;
+}

@@ -1,10 +1,110 @@
 <div class="container">
   <div class="row my-3">
-    <div class="col-lg-3">
+    <div class="col-lg-4">
       <h1>project detail</h1>
-      
-      
-      
+
+      <p class="font-weight-bold border-bottom">organization</p>
+      <p><%= link_to @project.organization.name, organization_path(@project.organization_id) %></p>
+
+      <p class="font-weight-bold border-bottom">project</p>
+      <u class="font-weight-bold">name</u>
+      <br>
+      <span><%= @project.name %></span>
+      <br>
+      <u class="font-weight-bold">owner</u>
+      <br>
+      <span><%= attachment_image_tag(User.find(@project.user_id), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+      <span><%= link_to User.find(@project.user_id).name, user_path(@project.user_id) %></span>
+      <br>
+      <u class="font-weight-bold">overview</u>
+      <span><%= simple_format(@project.overview) %></span>
+      <p>
+        <% if @project.user_id == current_user.id %>
+          <p>
+            <%= link_to 'edit',edit_organization_project_path(@project.id), class: "btn btn-success" %>
+            <%= link_to 'delete',organization_project_path(@project.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %>
+          </p>
+        <% end %>
+      </p>
+      <table style="width :100%">
+        <thead>
+          <tr>
+            <th class="font-weight-bold border-bottom text-center">member</th>
+            <th class="font-weight-bold border-bottom text-center">spendable</th>
+            <th class="font-weight-bold border-bottom text-center">man hour </th>
+            <th class="font-weight-bold border-bottom text-center">capacity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @project.members.each do |member| %>
+          <tr>
+            <td>
+              <span><%= attachment_image_tag(member.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+              <span><%= link_to member.user.name, user_path(member.user_id) %></span>
+            </td>
+            <td class="text-center">
+              <% if member.user == current_user %>
+                <%= link_to member.spendable_hour, project_member_spendable_path(@project.organization_id, @project.id,member.id) %>h
+              <% else %>
+                <%= member.spendable_hour %>h
+              <% end %>
+              </td>
+            <td class="text-center"><%= Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour) %>h</td>
+
+              <% if member.spendable_hour == 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述 %>
+                <td>
+                  <%= '-' %>
+                </td>
+              <% elsif member.spendable_hour <= Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour)%><%# capasityが100％を超える時に赤字で表示するための記述 %>
+                <td class="text-danger text-center">
+                <%= (Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
+                </td>
+              <% else %>
+                <td class="text-center">
+                <%= (Task.where(project_id: member.project_id, person: member.user.name ).sum(:man_hour).to_f/member.spendable_hour.to_f*100).round(2) %>%
+                </td>
+              <% end %>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <p>
+        <%= link_to 'edit', project_member_path(@project.organization_id,@project.id), class: "btn btn-success" %>
+      </p>
     </div>
+
+    <div class="col-lg-8">
+      <table class='table'>
+        <p class="text-right">
+          <%= link_to 'new task',new_organization_project_task_path(@project.organization_id,@project.id), class: "btn btn-primary" %>
+        </p>
+        <thead>
+          <tr>
+            <th>task</th>
+            <th>man hour</th>
+            <th>deadline</th>
+            <th>status</th>
+            <th>comment</th>
+            <th>person</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @project.tasks.each do |task| %>
+          <tr>
+            <td><%= link_to task.name,organization_project_task_path(@project.organization.id,@project.id,task.id) %></td>
+            <td><%= task.man_hour %></td>
+            <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
+            <td><%= task.status %></td>
+            <td><%= Comment.where(task_id: task.id).count %></td>
+            <td>
+              <span><%= attachment_image_tag(User.find_by(name: task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+              <span><%= task.person %></span>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </div>

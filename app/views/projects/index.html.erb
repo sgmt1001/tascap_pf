@@ -1,39 +1,51 @@
 <div class="container">
   <div class="row my-3">
-    <div class="col-lg-3">
+    <div class="col-lg-12">
 
-      <h1>project index</h1>
-      <span>organization</span>
-      <span>（プルダウン）</span>
+      <h1>my project</h1>
+
       <table class='table'>
-          <thead>
-            <tr>
-              <th>name</th>
-              <th>overview</th>
-              <th>man hour</th><%# taskのman_hourの合計 %>
-              <th>owner</th>
-              <th>member</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @project.each do |project| %>
-            <tr>
-              <td><%= project.name %></td>
-              <td><%= project.overview %></td>
-              <td>タスクの合計時間</td>
-              <td><%= User.find(project.user_id).name %></td>
-              <td>メンバーカウント(link)</td>
-              <%# if project.user_id == current_user.id %>
-                <td>
-                  <%#= link_to 'edit',dit_organization_project_path(project.id) %>
-                  <%#= link_to 'delete',organization_project_path(project.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
-                </td>
-              <%# end %>
-            </tr>
+        <thead>
+          <tr>
+            <th>organization</th>
+            <th>project</th>
+            <th>spendable</th>
+            <th>man hour</th>
+            <th>capacity</th>
+            <th>owner</th>
+            <th>member</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @user.projects.each do |project| %>
+          <tr>
+            <td><%= link_to project.organization.name, organization_path(project.organization_id) %></td>
+            <td><%= link_to project.name, organization_project_path(project.organization_id,project.id) %></td><%# deleteした時にindexに遷移できない %>
+            <td><%= Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour %>h</td>
+            <td><%= Task.where(project_id: project.id, person: @user.name).sum(:man_hour) %>h</td>
+
+            <% if Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour == 0 %><%# spndableが0の時に、zerodivisionerrorを回避するための記述 %>
+              <td>
+                <%= '-' %>
+              </td>
+            <% elsif Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour <= Task.where(project_id: project.id, person: @user.name ).sum(:man_hour) %><%# capasityが100％を超える時に赤字で表示するための記述 %>
+              <td class="text-danger">
+                <%= (Task.where(project_id: project.id, person: @user.name ).sum(:man_hour).to_f/Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour.to_f*100).round(2) %>%
+              </td>
+            <% else %>
+              <td>
+                <%= (Task.where(project_id: project.id, person: @user.name ).sum(:man_hour).to_f/Member.find_by(project_id: project.id, user_id: @user.id).spendable_hour.to_f*100).round(2) %>%
+              </td>
             <% end %>
-          </tbody>
-        </table>
+            <td>
+              <span><%= attachment_image_tag(User.find(project.user_id), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+              <span><%= link_to User.find(project.user_id).name, user_path(project.user_id) %></span>
+            </td>
+            <td><%= link_to Member.where(project_id: project.id).count, project_member_path(project.organization_id, project.id) %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
 
     </div>
   </div>

@@ -1,40 +1,87 @@
 <div class="container">
   <div class="row my-3">
-    <div class="col-lg-3">
+    <div class="col-lg-12">
 
       <h1>organization detail</h1>
-
+      <% if @organization.user_id == current_user.id %>
+        <p class="text-right">
+          <%= link_to 'edit',edit_organization_path(@organization.id), class: "btn btn-success" %>
+          <%= link_to 'delete',organization_path(@organization.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %>
+        </p>
+      <% end %>
       <table class='table'>
         <thead>
           <tr>
             <th>name</th>
-            <th>introduction</th>
             <th>owner</th>
-            <th>member</th>
-            <th></th>
+            <th>belonging</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><%= @organization.name %></td>
-            <td><%= @organization.introduction %></td>
-            <td><%= User.find(@organization.user_id).name %></td>
-            <td>メンバーカウント(link)</td>
-            <% if @organization.user_id == current_user.id %>
-              <td>
-                <%= link_to 'edit',edit_organization_path(@organization.id) %>
-                <%= link_to 'delete',organization_path(@organization.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
-              </td>
-            <% end %>
+            <td>
+              <span><%= attachment_image_tag(User.find(@organization.user_id), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+              <span><%= link_to User.find(@organization.user_id).name, user_path(@organization.user_id) %></span>
+            </td>
+            <td><%= link_to Belonging.where(organization_id: @organization.id).count, organization_belonging_path(@organization) %></td>
           </tr>
         </tbody>
       </table>
 
-      <div>projects</div>
-      <P><%= link_to 'new project',new_organization_project_path(@organization.id) %></P>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>introduction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= simple_format(@organization.introduction) %></td>
+          </tr>
+        </tbody>
+      </table>
 
-      <p>
-      </p>
+
+
+      <h3>projects</h3>
+      <p class="text-right"><%= link_to 'new project',new_organization_project_path(@organization.id), class: "btn btn-primary" %></p>
+
+      <table class='table'>
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>man hour(project)</th>
+              <th>owner</th>
+              <th>member</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @organization.projects.each do |project| %>
+            <tr>
+              <td>
+                <% if project.members.exists?(user_id: current_user.id )%>
+                  <%= link_to project.name, organization_project_path(@organization.id,project.id) %>
+                <% else %>
+                  <%= project.name %>
+                <% end %>
+              </td>
+              <td><%= Task.where(project_id: project.id).sum(:man_hour)%></td>
+              <td>
+                <span><%= attachment_image_tag(User.find(project.user_id), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+                <span><%= link_to User.find(project.user_id).name, user_path(project.user_id) %></span>
+              </td>
+              <td>
+                <% if project.members.exists?(user_id: current_user.id )%>
+                  <span><%= link_to Member.where(project_id: project.id).count, project_member_path(@organization.id, project.id) %></span>
+                <% else %>
+                  <%= Member.where(project_id: project.id).count %>
+                <% end %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
 
     </div>
   </div>

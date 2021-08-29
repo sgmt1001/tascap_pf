@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row my-3">
+    <div class="col-lg-12">
+      <h1>my task</h1>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>task</th>
+              <th>man hour</th>
+              <th>deadline</th>
+              <th>status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @task.each do |task| %>
+            <tr>
+              <td><%= link_to task.name, organization_project_task_path(task.project.organization_id, task.project_id, task.id) %></td>
+              <td><%= task.man_hour %></td>
+              <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
+              <td><%= task.status %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+    </div>
+  </div>
+</div>

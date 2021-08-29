@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row my-3">
+    <div class="col-lg-12">
+      <h1>project member</h1>
+      <h4>project:<%= @project.name %></h4>
+      <p class="text-right"><%= link_to 'add user',project_member_search_path(@project.organization,@project), class: "btn btn-primary" %></p>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th style="width :20%">user</th>
+            <th style="width :60%">introduction</th>
+            <th style="width :20%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @project.users.each do |user| %>
+            <tr>
+              <td>
+                <span><%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+                <span><%= link_to user.name,user_path(user.id) %></span>
+              </td>
+              <td><%= user.introduction %></td>
+              <% if current_user.id == @project.user_id %>
+                <td><%= link_to 'delete',project_member_invite_destroy_path(@project.id,user_id: user.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %></td>
+              <% elsif current_user.id == user.id %>
+                <td><%= link_to 'delete',project_member_invite_destroy_path(@project.id,user_id: user.id),method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-danger" %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <p><%= link_to 'project detail',organization_project_path(@project.organization.id, @project.id) %></p>
+    </div>
+  </div>
+</div>

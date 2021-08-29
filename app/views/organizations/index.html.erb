@@ -1,37 +1,30 @@
 <div class="container">
   <div class="row my-3">
-    <div class="col-lg-3">
-
-      <h1>organization index</h1>
-      <P><%= link_to 'new organization',new_organization_path %></P>
+    <div class="col-lg-12">
+        <h1>my organization</h1>
+        <p class="text-right"><%= link_to 'new organization',new_organization_path, class: "btn btn-primary" %></p>
       <table class='table'>
         <thead>
           <tr>
             <th>name</th>
-            <th>introduction</th>
             <th>owner</th>
-            <th>member</th>
-            <th></th>
+            <th>belonging</th>
           </tr>
         </thead>
         <tbody>
-          <% @organization.each do |organization| %>
+          <% @user.organizations.each do |organization| %>
           <tr>
             <td><%= link_to organization.name, organization_path(organization.id) %></td>
-            <td><%= organization.introduction %></td>
-            <td><%= User.find(organization.user_id).name %></td>
-            <td>メンバーカウント(link)</td>
-            <% if organization.user_id == current_user.id %>
-              <td>
-                <%= link_to 'edit',edit_organization_path(organization.id) %>
-                <%= link_to 'delete',organization_path(organization.id),method: :delete, data: { confirm: '本当に消しますか？' } %>
-              </td>
-            <% end %>
+            <td>
+              <span><%= attachment_image_tag(User.find(organization.user_id), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+              <span><%= link_to User.find(organization.user_id).name,user_path(organization.user_id) %></span>
+            </td>
+            <td><%= link_to Belonging.where(organization_id: organization.id).count, organization_belonging_path(organization.id) %></td>
           </tr>
           <% end %>
         </tbody>
       </table>
-      
+
     </div>
   </div>
 </div>

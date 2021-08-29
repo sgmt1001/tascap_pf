@@ -7,4 +7,17 @@ class User < ApplicationRecord
   has_many :belongings
   has_many :organizations, through: :belongings
 
+  has_many :members
+  has_many :projects, through: :members
+
+  has_many :tasks
+
+  has_many :comments, dependent: :destroy
+
+  has_many :reactions, dependent: :destroy
+
+
+
+  attachment :profile_image
+
 end
