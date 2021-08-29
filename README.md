@@ -1,24 +1,45 @@
-# README
+# tascap
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## アプリ概要
 
-Things you may want to cover:
+- 個人の作業キャパシティを数値化して適切な分担を可能にするタスク管理アプリ
+- 所属する組織毎に複数のプロジェクトを作成
+- 同一組織内のメンバー同士でプロジェクトとタスクの進捗状況やメンバーのキャパシティを確認
+- 組織内のメンバーのタスクを確認できるため、マネジメントにおいても活用可能
 
-* Ruby version
+### サイトテーマ
 
-* System dependencies
+- 最適な作業分担を可能にするチーム向けのタスク管理
+- シンプルかつ直感的な操作ができる UI
 
-* Configuration
+### テーマを選んだ理由
 
-* Database creation
+自身の前職において、チーム内で作業の偏りがあったり作業負荷が大きすぎたりした時に、ヘルプを求めても客観的な根拠を示せなかったために状況を改善できなかったという経験をしました。
+  メンバー各々がプロジェクト毎に費やすことのできる時間（キャパシティ）とタスクの工数を設定し、メンバー毎の負担を可視化することでこういった状況にならないようにしたいと感じ、メンバーのキャパシティという点に注目したタスク管理アプリを作りたいと考えました。
+  導入する際に抵抗を生まないよう、簡単で使いやすい印象を与えられる シンプルなUIを目指しました 。
 
-* Database initialization
+### ターゲットユーザ
 
-* How to run the test suite
+チームでプロジェクトを遂行する全ての人
 
-* Services (job queues, cache servers, search engines, etc.)
+### 主な利用シーン
 
-* Deployment instructions
+ビジネス、プライベート問わずタスクを分担してプロジェクト遂行するシーン
 
-* ...
+## チャレンジ要素一覧
+
+https://docs.google.com/spreadsheets/d/1uNu1n73SDZq4YFPMuvB-gk_lwLzzLz89wDcr6vfQsRA/edit#gid=0
+
+## 開発環境
+
+- OS：Linux(CentOS)
+- 言語：HTML,CSS,JavaScript,Ruby,SQL
+- フレームワーク：Ruby on Rails
+- JS ライブラリ：jQuery
+- IDE：Cloud9
+
+## 使用素材
+
+- 以下を使用予定
+- ・Font awesome
+- ・Hatchful
