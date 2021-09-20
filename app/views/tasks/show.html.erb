@@ -70,7 +70,7 @@
           <% @task.comments.each do |comment| %>
             <span>
               <span><%= attachment_image_tag(comment.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
-              <%= comment.user.name %>
+              <%= link_to comment.user.name, user_path(comment.user.id) %>
             </span>
             <span>
               <span class="font-weight-bold">datetime:</span>
@@ -107,9 +107,18 @@
         <% else %>
           <div>no comments submitted yet</div>
         <% end %>
-        </div>
-        <br>
-        <div>
+      </div>
+      <br>
+      <div class="text-danger">
+        <% if @task.errors.any? %>
+          <%= @task.errors.count %> error has occured,
+          <% @task.errors.full_messages.each do |message| %>
+          <%= message %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div>
         <%= form_with(model:[@task, @comment],url: organization_project_task_comments_path(@task.project.organization_id,@task.project_id,@task.id), local: true) do |f| %>
           <%= f.text_area :content, size: "60x10", rows:'5' ,placeholder: "new comment" %>
           <br>

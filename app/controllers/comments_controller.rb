@@ -4,8 +4,11 @@ class CommentsController < ApplicationController
     @task = Task.find(params[:task_id])
     comment = current_user.comments.new(comment_params)
     comment.task_id = @task.id
-    comment.save
-    redirect_to organization_project_task_path(@task.project.organization_id,@task.project_id,@task.id)
+    if comment.save
+      redirect_to organization_project_task_path(@task.project.organization_id,@task.project_id,@task.id)
+    else
+      redirect_to organization_project_task_path(@task.project.organization_id,@task.project_id,@task.id)
+    end
   end
 
   def destroy

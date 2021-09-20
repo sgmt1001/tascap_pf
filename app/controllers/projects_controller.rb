@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
       Member.create(project_id:@project.id,user_id:current_user.id)#create実行時にproject作成者をmemberに自動で追加
       redirect_to organization_project_path(@project.organization_id,@project.id)
     else
-      render 'index'
+      render 'new'
     end
   end
 
