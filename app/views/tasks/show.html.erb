@@ -80,22 +80,10 @@
               <%= simple_format(comment.content) %>
             </div>
 
-            <% if comment.reactioned_by?(current_user) %>
-              <p>
-                <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete do %>
-                  ♥<%= comment.reactions.count %>
-                <% end %>
-              </p>
-              <% else %>
-              <p>
-                <% if comment.user != current_user %><%# 自分のコメントにはいいねできないようにするための記述 %>
-                  <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :post do %>
-                    ♡<%= comment.reactions.count %>
-                  <% end %>
-                <% end %>
-              </p>
-            <% end %>
-
+            <div id="comment_<%= comment.id %>">
+              <%= render 'reactions/reaction', comment: comment, task: @task %>
+            </div>
+            
             <% if comment.user == current_user %>
               <div>
                 <%= link_to "delete", organization_project_task_comment_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete, class: "btn btn-danger"  %>
