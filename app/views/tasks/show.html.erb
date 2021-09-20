@@ -67,9 +67,10 @@
               <%= simple_format(comment.content) %>
             </div>
 
-            <div id="comment_<% comment.id %>">
+            <div id="comment_<%= comment.id %>">
               <%= render 'reactions/reaction', comment: comment, task: @task %>
             </div>
+            
             <% if comment.user == current_user %>
               <div>
                 <%= link_to "delete", organization_project_task_comment_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete, class: "btn btn-danger"  %>
