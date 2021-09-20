@@ -23,7 +23,20 @@
             <td><%= @task.name %></td>
             <td><%= @task.man_hour %></td>
             <td><%= @task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
-            <td><%= @task.status %></td>
+            <% if @task.status == 'incomplete' %>
+            <td class="text-danger">
+              <%= @task.status %>
+            </td>
+            <% elsif @task.status == 'in progress' %>
+            <td class="text-primary">
+              <%= @task.status %>
+            </td>
+            <% else %>
+            <td class="text-success">
+              <%= @task.status %>
+            </td>
+            <% end %>
+
             <td>
               <span><%= attachment_image_tag(User.find_by(name: @task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
               <span><%= @task.person %></span>
