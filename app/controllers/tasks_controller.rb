@@ -27,6 +27,12 @@ class TasksController < ApplicationController
    @task = Task.new(task_params)
    @task.user_id = current_user.id
    @task.project_id = params[:project_id]
+   members = Member.where( project_id: params[:project_id] )
+    @users = []
+    members.each do |member|
+      user = User.find(member.user_id)
+      @users.push(user.name)
+    end
     if @task.save
       redirect_to organization_project_task_path(@task.project.organization_id,@task.project_id,@task.id)
     else
