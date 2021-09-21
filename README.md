@@ -40,6 +40,5 @@ https://docs.google.com/spreadsheets/d/1uNu1n73SDZq4YFPMuvB-gk_lwLzzLz89wDcr6vfQ
 
 ## 使用素材
 
-- 以下を使用予定
-- ・Font awesome
-- ・Hatchful
+- Font awesome
+- Hatchful
