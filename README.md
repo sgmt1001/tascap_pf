@@ -32,10 +32,9 @@ https://docs.google.com/spreadsheets/d/1uNu1n73SDZq4YFPMuvB-gk_lwLzzLz89wDcr6vfQ
 
 ## 開発環境
 
-- OS：Linux(CentOS)
-- 言語：HTML,CSS,JavaScript,Ruby,SQL
+- OS：Amazon Linux　2
+- 言語：HTML,CSS,Ruby,SQL
 - フレームワーク：Ruby on Rails
-- JS ライブラリ：jQuery
 - IDE：Cloud9
 
 ## 使用素材
