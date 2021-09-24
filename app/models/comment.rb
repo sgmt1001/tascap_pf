@@ -8,4 +8,6 @@ class Comment < ApplicationRecord
     reactions.where(user_id: user.id).exists?
   end
 
+validates :content, presence: true
+
 end

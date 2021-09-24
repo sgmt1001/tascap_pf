@@ -3,6 +3,16 @@
     <div class="col-lg-12">
       <h1>new task</h1>
 
+    <div class="text-danger">
+      <% if @task.errors.any? %>
+        <%= @task.errors.count %> error has occured,
+        <% @task.errors.full_messages.each do |message| %>
+        <%= message %>
+        <% end %>
+      <% end %>
+    </div>
+
+
         <%= form_with model:@task,url: organization_project_tasks_path(@task.project.organization_id,@task.project_id),local:true do |f| %>
           <div>
             <%= f.label :name %><br>

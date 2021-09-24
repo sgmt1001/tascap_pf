@@ -7,4 +7,8 @@ class Task < ApplicationRecord
 
   enum status: { 'incomplete': 0, 'in progress': 1, 'complete': 2}
 
+  validates :name, presence: true
+  validates :man_hour, presence: true, numericality: { only_integer: true }
+
+
 end

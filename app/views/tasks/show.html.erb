@@ -23,7 +23,20 @@
             <td><%= @task.name %></td>
             <td><%= @task.man_hour %></td>
             <td><%= @task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
-            <td><%= @task.status %></td>
+            <% if @task.status == 'incomplete' %>
+            <td class="text-danger">
+              <%= @task.status %>
+            </td>
+            <% elsif @task.status == 'in progress' %>
+            <td class="text-primary">
+              <%= @task.status %>
+            </td>
+            <% else %>
+            <td class="text-success">
+              <%= @task.status %>
+            </td>
+            <% end %>
+
             <td>
               <span><%= attachment_image_tag(User.find_by(name: @task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
               <span><%= @task.person %></span>
@@ -57,7 +70,7 @@
           <% @task.comments.each do |comment| %>
             <span>
               <span><%= attachment_image_tag(comment.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
-              <%= comment.user.name %>
+              <%= link_to comment.user.name, user_path(comment.user.id) %>
             </span>
             <span>
               <span class="font-weight-bold">datetime:</span>
@@ -67,22 +80,10 @@
               <%= simple_format(comment.content) %>
             </div>
 
-            <% if comment.reactioned_by?(current_user) %>
-              <p>
-                <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete do %>
-                  ♥<%= comment.reactions.count %>
-                <% end %>
-              </p>
-              <% else %>
-              <p>
-                <% if comment.user != current_user %><%# 自分のコメントにはいいねできないようにするための記述 %>
-                  <%= link_to organization_project_task_comment_reactions_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :post do %>
-                    ♡<%= comment.reactions.count %>
-                  <% end %>
-                <% end %>
-              </p>
-            <% end %>
-
+            <div id="comment_<%= comment.id %>">
+              <%= render 'reactions/reaction', comment: comment, task: @task %>
+            </div>
+            
             <% if comment.user == current_user %>
               <div>
                 <%= link_to "delete", organization_project_task_comment_path(@task.project.organization_id,@task.project_id,@task.id,comment.id), method: :delete, class: "btn btn-danger"  %>
@@ -94,9 +95,18 @@
         <% else %>
           <div>no comments submitted yet</div>
         <% end %>
-        </div>
-        <br>
-        <div>
+      </div>
+      <br>
+      <div class="text-danger">
+        <% if @task.errors.any? %>
+          <%= @task.errors.count %> error has occured,
+          <% @task.errors.full_messages.each do |message| %>
+          <%= message %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div>
         <%= form_with(model:[@task, @comment],url: organization_project_task_comments_path(@task.project.organization_id,@task.project_id,@task.id), local: true) do |f| %>
           <%= f.text_area :content, size: "60x10", rows:'5' ,placeholder: "new comment" %>
           <br>

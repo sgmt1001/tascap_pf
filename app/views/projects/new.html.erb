@@ -3,6 +3,15 @@
     <div class="col-lg-12">
       <h1>new project</h1>
 
+       <div class="text-danger">
+        <% if @project.errors.any? %>
+          <%= @project.errors.count %> error has occured,
+          <% @project.errors.full_messages.each do |message| %>
+          <%= message %>
+          <% end %>
+        <% end %>
+      </div>
+
       <%= form_with model:@project,url:organization_projects_path,local:true do |f| %>
         <div>
           <%= f.label :name %><br>

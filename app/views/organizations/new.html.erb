@@ -4,6 +4,15 @@
 
       <h1>new organization</h1>
 
+      <div class="text-danger">
+        <% if @organization.errors.any? %>
+          <%= @organization.errors.count %> error has occured,
+          <% @organization.errors.full_messages.each do |message| %>
+          <%= message %>
+          <% end %>
+        <% end %>
+      </div>
+
       <%= form_with model:@organization,local:true do |f| %>
         <div>
           <%= f.label :name %><br>

@@ -20,7 +20,7 @@ class OrganizationsController < ApplicationController
       Belonging.create(organization_id:@organization.id,user_id:current_user.id)#create実行時にorganization作成者をbelongingに自動で追加
       redirect_to organization_path(@organization)
     else
-      render 'index'
+      render 'new'
     end
   end
 

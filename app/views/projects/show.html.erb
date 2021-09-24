@@ -94,10 +94,24 @@
             <td><%= link_to task.name,organization_project_task_path(@project.organization.id,@project.id,task.id) %></td>
             <td><%= task.man_hour %></td>
             <td><%= task.deadline.strftime("%Y/%m/%d %H:%M") %></td>
-            <td><%= task.status %></td>
+
+            <% if task.status == 'incomplete' %>
+            <td class="text-danger">
+              <%= task.status %>
+            </td>
+            <% elsif task.status == 'in progress'%>
+            <td class="text-primary">
+              <%= task.status %>
+            </td>
+            <% else %>
+            <td class="text-success">
+              <%= task.status %>
+            </td>
+            <% end %>
+
             <td><%= Comment.where(task_id: task.id).count %></td>
             <td>
-              <span><%= attachment_image_tag(User.find_by(name: task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40', class: "profile_img") %></span>
+              <span><%= attachment_image_tag(User.find_by(name: task.person), :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg", size: '40x40') %></span>
               <span><%= task.person %></span>
             </td>
           </tr>
